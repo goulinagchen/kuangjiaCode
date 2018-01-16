@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<!--  constant:配置常量 ，修改框架的属性
+		    参考default.properties文件.
+		  
+	 -->
+    <constant name="struts.devMode" value="true" />
+    <constant name="struts.action.extension" value="action,do,,"></constant>
+	<!-- 
+		package:
+			name:package的名字，唯一标识
+			namespace:名称空间,主要就是为了区分不同package下的同名请求. 相当于访问路径.
+			extends:指定继承自哪个package.  struts-default是框架已经定义好的一个package.
+	 -->
+    <package name="default" namespace="/user" extends="struts-default">
+    
+    	<!-- 配置拦截器 -->
+    	<interceptors>
+    		<!--  自定义拦截器 -->
+    		<interceptor name="myInterceptor" class="com.atguigu.struts2.interceptor.MyInterceptor"></interceptor>
+    		<!-- 自定义拦截器栈 -->
+    		<interceptor-stack name="myDefault">
+    			<!-- 将框架的默认的拦截器栈引用过来 -->
+    			<interceptor-ref name="defaultStack"></interceptor-ref>
+    			<interceptor-ref name="myInterceptor"></interceptor-ref>
+    		</interceptor-stack>
+    	</interceptors>
+    	
+    	<!-- 配置使用的拦截器栈 -->
+        <default-interceptor-ref name="myDefault"></default-interceptor-ref>
+		
+		<!-- 定义 请求与Action方法的映射关系，以及响应的处理。
+			name:指定请求名.
+		 -->
+        <action name="login" class="com.atguigu.struts2.action.UserAction" method="login">
+        	
+        	<!-- 配置响应方式 
+        		name:对应Action类中处理方法的返回值.
+        		type:响应方式
+        	-->
+            <result  name="success" type="dispatcher" >/WEB-INF/views/main.jsp</result>
+            <result name="login" type="dispatcher">/login.jsp</result>
+        </action>
+        
+        
+        
+    </package>
+    
+    
+    <package name="default1" namespace="/order" extends="struts-default">
+    	 <action name="login" class="com.atguigu.struts2.action.UserAction" method="login">
+        	<!-- 配置响应方式 
+        		name:对应Action类中处理方法的返回值.
+        		type:响应方式
+        	-->
+            <result  name="success" type="dispatcher" >/WEB-INF/views/main.jsp</result>
+            <result name="login" type="redirect">/login.jsp</result>
+        </action>
+    </package>
+
+   <!--   <include file="example.xml"/> -->
+
+</struts>

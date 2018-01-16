@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Address 
+	 bean的作用域：
+	 	singleton: 单例的. 在容器初始化的时候就会创建该bean的对象,在整个容器的生命周期期间共享该bean的对象.
+	 	prototype: 原型的. 在容器初始化的时候不会创建该bean的对象,而是在通过getBean方法来获取对象的时候才会
+	 	                                         调用构造器创建对象,每获取一个，都会创建一个新的对象.在整个容器的生命周期期间有多个该bean的对象.
+	 	request  : 一次请求期间. 
+	 	session  : 一次会话期间.
+	
+	-->
+	<bean id="address" class="com.atguigu.spring.scope.Address" scope="prototype">
+		<property name="city" value="BeiJing"></property>
+		<property name="street" value="SanLiTun"></property>
+	</bean>
+	
+	
+
+</beans>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE configuration  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- properties用来引入外部propertie类型的配置文件
+		resource:引入类路径下的资源
+		url:引入网络或者磁盘路径下的资源
+	 -->
+	
+	<properties resource="db.properties"></properties>
+	<!-- settings:包含了很多重要的设置项
+		setting:用来配置每一个配置项的
+				name:设置项的名字
+				value:设置项的取值
+	 -->
+	 <settings>
+	 	<!-- mapUnderscoreToCamelCase 映射下划线为驼峰命名-->
+	 	<setting name="mapUnderscoreToCamelCase" value="true"/>
+	 </settings>
+	
+	<!--  typeAliases别名处理
+			typeAlias:给某个java类型取别名
+				type:指定java的类型
+				alia:指定别名，如不指定，默认为java类型的类名小写（别名不区分大小写！）
+			package:批量取别名,为指定的包及子包下的所有类取别名(不能自己指定别名，均为默认别名)，可通过一个注解@Alias("")来指定具体的别名
+	 -->
+	<typeAliases>
+		<typeAlias type="mybatis.beans.Employee"/>
+		<package name="mybatis.beans"/>
+	</typeAliases>
+	
+	<!--  typeHandlers:类型处理器，负责java类型与数据库字段类型的相互转换
+			java String  to DB char/varchar
+			DB int to java int/Integer
+			
+			JSR:Java Specification Requests java规范提案
+			JSR310: 时间日期规范
+			        Date Calender(历法 GregorianCalendar) long
+			        jdk1.8以前 时间日期处理类库不丰富
+			        jdk1.8以后 实现了JSR310标准，添加了更丰富的时间日期类库
+			        MyBatis低版本未加入JSR310标准的类型处理器，需要通过typeHandlers手动注册
+			        MyBatis3.4以后已经自带，无需手动注册
+	 -->
+	
+	<!-- plugins:插件，用于拦截MyBatis的四大对象的方法的执行过程，达到动态改变MyBatis的默认行为
+	
+		MyBatis的四大对象:
+			执行器，完成增删改查操作 Executor (update, query, flushStatements, commit, rollback, getTransaction, close, isClosed) 
+			参数处理器，完成sql语句参数的处理 ParameterHandler (getParameterObject, setParameters)
+			结果集处理器，完成将查处的数据结果封装成java对象 ResultSetHandler (handleResultSets, handleOutputParameters)
+			sql语句处理器，完成sql语句的编译、预编译等 StatementHandler (prepare, parameterize, batch, update, query) 
+	 -->
+	
+	<!-- environments:环境的配置，可以同时配置多个环境，通过default来指定具体使用的环境
+			environment:具体的环境,必须包含两个子标签
+				transactionManager:事务管理器
+					type:指定事务管理器的类型
+						JDBC:JdbctransactionFactory
+						MANAGED:ManagedTransactionFactory
+						
+						自定义事务管理器，只需要实现TransactionFactory接口即可，type指定为全类名
+						
+						最终：事务管理交给Spring进行管理 ==> 使用里面的声明式事务管理
+						
+				dataSource:数据源，
+					type:配置数据源的类型，
+						UNPOOLED:不使用连接池 UnpooledDataSourceFactory
+						POOLED:使用连接池 PooledDataSourceFactory
+						JNDI:从web服务器（Tomcat）中获取数据源 JndiDataSourceFactory
+						
+						最终：交给Spring管理。
+	 -->
+	
+	<!-- databaseIdProvider:MyBatis用来支持多数据库厂商,就是MyBatis根据不同的数据库厂商，执行不同的sql语句
+			property:
+				name:数据库的标识号  Connection.getMetaData().getDatabaseProductName();
+				value:起的别名		
+	 -->
+	<databaseIdProvider type="DB_VENDOR">
+		<!-- 配置多个数据库，相当于给每个数据库给个别名，将来在sql语句上使用起好的别名 -->
+		<property name="MySQL" value="mysql"/>
+		<property name="Oracle" value="oracle"/>
+		<property name="SQL Server" value="sqlserver"/>
+	</databaseIdProvider>
+	
+	
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${jdbc.driver}" />
+				<property name="url" value="${jdbc.url}" />
+				<property name="username" value="${jdbc.username}" />
+				<property name="password" value="${jdbc.password}" />
+			</dataSource>
+		</environment>
+	<!-- 	<environment id="">
+			<transactionManager type=""></transactionManager>
+			<dataSource type=""></dataSource>
+		</environment> -->
+	</environments>
+	
+	<!-- mappers:引入sql映射文件
+			mapper:注册一个sql映射文件
+				resource:引入类路径下的sql映射文件
+				url:引入网络或磁盘路劲下的sql映射文件
+				class:直接引入接口
+					1.如果有对应的sql映射文件，sql映射文件名必须和接口同名，且必须在同一个目录下。
+					2.没有sql对应的映射文件，基于注解来配置sql语句的映射关系。所有的sql都用注解卸载接口的方法上（@Select（select * from tal_employee where id = #{id}））	
+			package:批量映入sql映射文件
+					要求sql映射文件的名字与接口同名且在同一个文件目录下(指定接口所在的包)		
+	 -->
+	<mappers>
+		<package name="mybatis.dao"/>
+	</mappers>
+	<!-- <mappers>
+		<mapper resource="EmployeeMapper.xml" />
+	</mappers> -->
+</configuration>

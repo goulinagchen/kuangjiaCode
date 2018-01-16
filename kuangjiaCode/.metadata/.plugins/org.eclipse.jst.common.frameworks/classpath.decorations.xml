@@ -1,0 +1,51 @@
+<classpath>
+  <container id="Struts!org.eclipse.jst.j2ee.internal.web.container">
+    <entry id="H:/kuangjiaCode/Struts/WebContent/WEB-INF/lib/xwork-core-2.3.15.3.jar">
+      <source-attachment-path>F:/Java/框架/Struts2/LibrarySupport/struts-2.3.15.3-all.zip</source-attachment-path>
+    </entry>
+  </container>
+  <container id="Springmvc3!org.eclipse.jst.j2ee.internal.web.container">
+    <entry id="H:/kuangjiaCode/Springmvc3/WebContent/WEB-INF/lib/spring-core-4.0.0.RELEASE.jar">
+      <source-attachment-path>F:/Java/框架/相关jar包/spring-framework-4.0.0.RELEASE/libs/spring-core-4.0.0.RELEASE-sources.jar</source-attachment-path>
+    </entry>
+  </container>
+  <container id="Springmvc5!org.eclipse.jst.j2ee.internal.web.container">
+    <entry id="H:/kuangjiaCode/Springmvc5/WebContent/WEB-INF/lib/spring-webmvc-4.0.0.RELEASE.jar">
+      <source-attachment-path>F:/Java/框架/相关jar包/spring-framework-4.0.0.RELEASE/libs/spring-webmvc-4.0.0.RELEASE-sources.jar</source-attachment-path>
+    </entry>
+    <entry id="H:/kuangjiaCode/Springmvc5/WebContent/WEB-INF/lib/spring-web-4.0.0.RELEASE.jar">
+      <source-attachment-path>F:/Java/框架/相关jar包/spring-framework-4.0.0.RELEASE/libs/spring-web-4.0.0.RELEASE-sources.jar</source-attachment-path>
+    </entry>
+  </container>
+  <container id="Springmvc0501!org.eclipse.jst.j2ee.internal.web.container">
+    <entry id="H:/kuangjiaCode/Springmvc0501/WebContent/WEB-INF/lib/spring-webmvc-4.0.0.RELEASE.jar">
+      <source-attachment-path>F:/Java/框架/相关jar包/spring-framework-4.0.0.RELEASE/libs/spring-webmvc-4.0.0.RELEASE-sources.jar</source-attachment-path>
+    </entry>
+  </container>
+  <container id="1!org.eclipse.jst.j2ee.internal.web.container">
+    <entry id="H:/kuangjiaCode/1/WebContent/WEB-INF/lib/spring-web-4.0.0.RELEASE.jar">
+      <source-attachment-path>F:/Java/框架/Spring/spring-framework-4.0.0.RELEASE/libs/spring-web-4.0.0.RELEASE-sources.jar</source-attachment-path>
+    </entry>
+  </container>
+  <container id="Struts011!org.eclipse.jst.j2ee.internal.web.container">
+    <entry id="H:/kuangjiaCode/Struts011/WebContent/WEB-INF/lib/xwork-core-2.3.15.3.jar">
+      <source-attachment-path>F:/Java/框架/Struts2/LibrarySupport/struts-2.3.15.3-all.zip</source-attachment-path>
+    </entry>
+    <entry id="H:/kuangjiaCode/Struts011/WebContent/WEB-INF/lib/struts2-core-2.3.15.3.jar">
+      <source-attachment-path>F:/Java/框架/Struts2/LibrarySupport/struts-2.3.15.3-all.zip</source-attachment-path>
+    </entry>
+  </container>
+  <container id="2!org.eclipse.jst.j2ee.internal.web.container">
+    <entry id="H:/kuangjiaCode/2/WebContent/WEB-INF/lib/spring-webmvc-4.0.0.RELEASE.jar">
+      <source-attachment-path>F:/Java/框架/Spring/spring-framework-4.0.0.RELEASE/libs/spring-webmvc-4.0.0.RELEASE-sources.jar</source-attachment-path>
+    </entry>
+    <entry id="H:/kuangjiaCode/2/WebContent/WEB-INF/lib/spring-context-4.0.0.RELEASE.jar">
+      <source-attachment-path>F:/Java/框架/Spring/spring-framework-4.0.0.RELEASE/libs/spring-context-4.0.0.RELEASE-sources.jar</source-attachment-path>
+    </entry>
+  </container>
+  <container id="Springmvc1!org.eclipse.jst.j2ee.internal.web.container">
+    <entry id="H:/kuangjiaCode/Springmvc1/WebContent/WEB-INF/lib/spring-web-4.0.0.RELEASE.jar">
+      <source-attachment-path>F:/Java/框架/相关jar包/spring-framework-4.0.0.RELEASE/libs/spring-web-4.0.0.RELEASE-sources.jar</source-attachment-path>
+    </entry>
+  </container>
+</classpath>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ssm.mapper.EmployeeMapper">
+	<select id="getEmp" resultType="ssm.bean">
+		select *
+		from tal_employee
+		where id = #{id}
+	</select>
+	<select id="getAllEmps" resultMap="MyEmpAndDept">
+		select e.id eid,e.last_name last_name,e.gender gender,e.email email,
+			   d.id did,d.dept_name dept_name
+		from tal_employee e,tal_dept d
+		where e.d_id = d.id
+	</select>
+	<resultMap type="ssm.bean.Employee" id="MyEmpAndDept">
+		<id column="id" property="id"/>
+		<result column="last_name" property="lastName"/>
+		<result column="gender" property="gender"/>
+		<result column="email" property="email"/>
+		<association property="dept" javaType="ssm.bean.Department">
+			<id column="did" property="id"/>
+			<result column="dept_name" property="departmentName"/>
+		</association>
+	</resultMap>
+	
+	<insert id="addEmp" useGeneratedKeys="true" keyProperty="id">
+		insert into tal_employee(last_name,gender,email) 
+		values(#{lastName},#{gender},#{email})
+	</insert>
+	
+	<update id="updateEmp">
+		update tal_employee
+			last_name = #{lastName},
+			gender = #{gender},
+			email = ${email}
+		where id = #{id}
+	</update>
+	
+	<delete id="deleteEmp">
+		delete 
+		from tal_employee
+		where id = #{id}
+	</delete>
+	
+</mapper>

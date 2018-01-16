@@ -1,0 +1,41 @@
+package struts2.action;
+
+import com.opensymphony.xwork2.Action;
+import com.opensymphony.xwork2.ActionSupport;
+
+public class UserAction/* implements Action */ extends ActionSupport {
+
+	private static final long serialVersionUID = 1L;
+	private String username;
+	private String password;
+
+	public String login() {
+		if ("admin".equals(username) && "1234".equals(password)) {
+			return SUCCESS;
+		}
+		return LOGIN;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		System.out.println("setUsername " + username);
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		System.out.println("setPassword " + password);
+		this.password = password;
+	}
+
+	/*
+	 * @Override public String execute() throws Exception { //
+	 * 默认执行此方法，在未通过struts.xml中 action标签的method属性来指定时。 return null; }
+	 */
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+
+	<bean id="address0" class="relation.Address" p:city="BeiJing"
+		p:street="TianTongYuan" abstract="true">
+	</bean>
+
+	<bean id="address1" class="relation.Address" parent="address0"
+		p:street="HuiLongGuan">
+	</bean>
+
+	<bean id="person" class="relation.Person" depends-on="car">
+		<property name="name" value="周芷若"></property>
+		<property name="address" ref="address1"></property>
+		<property name="car" ref="car"></property>
+	</bean>
+
+	<bean id="car" class="relation.Car"></bean>
+</beans>

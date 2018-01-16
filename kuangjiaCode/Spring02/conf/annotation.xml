@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+	
+	<!-- 开启注解扫描
+		base-package: 指定基包.SpringIOC会扫描当前包以及子包下面所有的组件.
+		use-default-filters="true/false":是否使用默认的过滤
+	 -->
+	<context:component-scan base-package="com.atguigu.spring.annotation" >
+		<!-- 扫描指定注解的组件   include-filter必须与use-default-filters="false"一起使用
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/> 
+		-->
+		
+		<!-- 扫描指定的类.
+		<context:include-filter type="assignable" expression="com.atguigu.spring.annotation.controller.UserController"/> 
+		-->
+		
+		<!-- 排除指定注解的组件
+		 <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/> 
+		 -->
+		 
+		 <!--排除指定的类
+		 <context:exclude-filter type="assignable" expression="com.atguigu.spring.annotation.controller.UserController"/> 
+		 -->
+	</context:component-scan>
+
+</beans>

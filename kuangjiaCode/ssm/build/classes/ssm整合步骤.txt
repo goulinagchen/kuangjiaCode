@@ -1,0 +1,22 @@
+SSM整合步骤:
+1.导入整合需要的jar包
+  a.Spring框架相关的jar包
+  b.SpringMVC框架相关的jar包
+  c.MyBatis框架相关的jar包
+  d.MyBatis与Spring框架的适配包
+  e.Mysql数据库的驱动包、连接池、日志等.
+2.MyBatis框架环境的搭建:
+  a.Mybatis的全局配置文件
+  b.MyBatis的sql映射文件
+  c.Mybatis的 javaBean,Mapper接口等.
+3.Spring  Springmvc 环境的搭建:
+  a.web.xml中配置实例化SpringIOC容器的监听器  SpringMVC的前端控制器
+  b.Spring的配置文件: 配置数据源、事务、整合配置、 扫描除了Controller之外的组件
+  c.SpringMVC的配置文件: 视图解析器、 扫描Controller组件.  
+4.Spring整合Mybatis
+  a.配置创建SqlSession对象的SqlSessionFactoryBean
+  b.配置扫描所有的Mapper接口，生成代理实现类，让Spring管理所有的Mapper组件
+  c.让组件之间使用@AutoWired进行装配.
+5.编码测试:
+  a.员工的增删改查.
+    

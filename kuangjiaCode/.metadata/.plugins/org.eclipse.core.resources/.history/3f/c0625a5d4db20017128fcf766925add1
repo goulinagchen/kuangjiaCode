@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+	
+<struts>
+	<!-- constant:配置常量，参考default.properties 3499364-->
+	<constant name="struts.action.extension" value="action,do,,"></constant>
+	<constant name="struts.devMode" value="true"/>
+	
+	<package name="default" namespace="/" extends="struts-default">
+		<!-- 配置拦截器 -->		
+		<interceptors>
+			<interceptor name="myInterceptor" class="struts2.interceptor.MyInterceptor">
+			</interceptor>
+			<interceptor-stack name="myDefault">
+				<interceptor-ref name="myInterceptor"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<action name="login" class="struts2.action.UserAction" method="login">
+			<!-- dispatcher:转发
+				 redirect:重定向
+			 -->
+			<result name="success" type="dispatcher">/WEB-INF/view/main.jsp</result>
+			<result name="login" type="dispatcher">/login.jsp</result>
+		</action>
+		
+		<default-interceptor-ref name="myDefault"></default-interceptor-ref>
+	</package>
+		
+</struts>

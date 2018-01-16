@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+	
+	<!-- 
+		默认情况下配置的bean都是单例的.在容器初始化的时候就会创建该bean的对象.
+	 -->
+	<!-- 配置bean , Set方式注入 -->
+	<bean id="car0" class="com.atguigu.spring.beans.di.Car" scope="prototype">
+		<property name="brand" value="Audi"></property>
+		<property name="crop" value="YiQi"></property>
+		<property name="price" value="400000"></property>
+	</bean>
+	
+	
+	<!-- 配置bean,构造器注入 
+		index: 用来指定构造器参数的位置
+		type:  用来执行构造器参数的类型
+	-->
+	<bean id="car1" class="com.atguigu.spring.beans.di.Car">
+		<constructor-arg value="huachen" index="1"></constructor-arg>
+		<constructor-arg value="500000" index="2" type="double"></constructor-arg>
+		<constructor-arg value="bmw" index="0"></constructor-arg>
+	</bean>
+	
+	<bean id="car2" class="com.atguigu.spring.beans.di.Car">
+		<constructor-arg value="Benz"></constructor-arg>
+		<constructor-arg value="MSDS"></constructor-arg>
+		<constructor-arg value="300"></constructor-arg>
+	</bean>
+	
+	<!-- 注入属性值的细节
+		转义字符: 
+			<:&lt;
+			>:&gt;
+			&:&amp;
+			':
+			": 
+		<![CDATA[....]]>
+	 -->
+	<bean id ="book" class="com.atguigu.spring.beans.di.Book">
+		<property name="isbn" >
+			<value>1001</value>
+		</property>
+		<!-- <property name="bookName" value="&lt;&lt;java从入门到放弃&gt;&gt;"></property> -->
+		<property name="bookName" >
+			<value><![CDATA[<<java神功是如何炼成的?'"&>>]]></value>
+		</property>
+	</bean>
+	
+	
+	<!-- 引用其他的bean -->
+	<bean id="person" class="com.atguigu.spring.beans.di.Person">
+		<property name="name" value="Tom"></property>
+		<property name="age" value="25"></property>
+		<property name="car"  ref="car0">
+			<!-- <ref bean=""/> -->
+		</property>
+	</bean>
+	
+	<!-- 内部bean -->
+	<bean id="personInnerBean" class="com.atguigu.spring.beans.di.Person">
+		<property name="name" value="Jerry"></property>
+		<property name="age" value="25"></property>
+		<property name="car">
+			<!-- 定义内部bean，内部bean只能在内部使用,id可以省略. -->
+			<bean  class="com.atguigu.spring.beans.di.Car">
+				<property name="brand" value="Ford"></property>
+				<property name="crop" value="ChangAn"></property>
+				<property name="price" value="200000"></property>
+			</bean>
+		</property>
+	</bean>
+	
+	
+	<!-- null值和级联属性 -->
+	<bean id="personNullAndCascade" class="com.atguigu.spring.beans.di.Person">
+		<property name="name" value="Jack"></property>
+		<property name="age" value="30"></property>
+		<!-- <null/>标签赋值null值 -->
+		<!-- <property name="car" ><null/></property> -->
+		<property name="car" ref="car0"></property>
+		<!-- 级联属性 -->
+		<property name="car.maxSpeed" value="280"></property>
+	</bean>
+	
+	<!-- 集合属性的注入 -->
+	<bean id="personList" class="com.atguigu.spring.beans.di.PersonList">
+		<property name="name" value="Rose"></property>
+		<property name="age" value="25"></property>
+		<property name="cars" ref="listCars">
+			<!-- <list>
+				<ref bean="car0"/>
+				<ref bean="car1"/>
+				<ref bean="car2"/>
+				
+				<bean  class="com.atguigu.spring.beans.di.Car">
+					<property name="brand" value="HongQi"></property>
+					<property name="crop" value="YiQi"></property>
+					<property name="price" value="300000"></property>
+				</bean>
+			</list> -->
+			
+		</property>
+	</bean>
+	
+	<bean id="personMap" class="com.atguigu.spring.beans.di.PersonMap">
+		<property name="name" value="Zhangsanfeng"></property>
+		<property name="age" value="60"></property>
+		<property name="cars">
+			<map>
+				<entry key="AA" value-ref="car0"></entry>
+				<entry key="BB" value-ref="car1"></entry>
+				<entry key="CC" value-ref="car2"></entry>
+			</map>
+		</property>
+	</bean>
+	
+	
+	<bean id="myDataSource" class="com.atguigu.spring.beans.di.MyDataSource">
+		<property name="properties">
+			<props>
+				<prop key="driverClass">com.mysql.jdbc.Driver</prop>
+				<prop key="url">jdbc:mysql://localhost:3306/test</prop>
+				<prop key="username">root</prop>
+				<prop key="password">1234</prop>
+			</props>
+		</property>
+	</bean>
+	
+	
+	<!-- 配置独立的集合bean -->
+	<util:list id="listCars">
+		<ref bean="car0"/>
+		<ref bean="car1"/>
+		<ref bean="car2"/>
+	</util:list>
+	
+	<!-- 使用p命名空间配置bean -->
+	<bean id="personList2" class="com.atguigu.spring.beans.di.PersonList"
+		p:name="ZhangCuiShan" p:age="40" p:cars-ref="listCars">
+	</bean>
+	
+	
+	
+</beans>

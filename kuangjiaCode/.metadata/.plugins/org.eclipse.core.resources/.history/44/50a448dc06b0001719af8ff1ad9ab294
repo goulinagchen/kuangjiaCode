@@ -1,0 +1,6 @@
+package mybatis.dao;
+
+public interface EmployeeMapperResultMap {
+
+	
+}

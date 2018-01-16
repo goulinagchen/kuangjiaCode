@@ -1,0 +1,50 @@
+package com.atguigu.mybatis.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.MapKey;
+import org.apache.ibatis.annotations.Param;
+
+import com.atguigu.mybaits.beans.Employee;
+
+/**
+ *  Mapper接口  等价于 JDBC中的Dao接口.
+ *
+ */
+public interface EmployeeMapper {
+	
+	//@Select("select * from tbl_employee where id = #{id}")
+	public Employee getEmployeeById(Integer id );  
+	
+	public Integer addEmp(Employee employee );
+	
+	public boolean updateEmp(Employee employee );
+	
+	public Long deleteEmpById(Integer id );
+	
+	public Employee getEmpByIdAndLastName(@Param("id")Integer id ,@Param("lastName")String lastName);
+	
+	public Employee getEmpByMap(Map<String,Object> map );
+	
+	//查询返回一个集合类型
+	public List<Employee> getEmpsByLastName(String lastName);
+	
+	//查询一条记录, 封装成map返回. map<k,v>:k 列名   v 列值
+	public Map<String,Object> getEmpByIdReturnMap(Integer id );
+	
+	//查询多条记录，封装成map返回. 
+	@MapKey("lastName")   //告诉MyBatis封装map的时候使用对象的哪个属性作为map的key.
+	public Map<String ,Employee> getEmpsByLastNameReturnMap(String lastName);
+}
+
+
+/*class EmployeeMapperImpl implements EmployeeMapper{
+
+	@Override
+	public Employee getEmployeeById(Integer id) {
+		//jdbc
+		return null;
+	}
+	
+}*/

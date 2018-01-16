@@ -1,0 +1,8 @@
+package com.atguigu.mybatis.dao;
+
+import com.atguigu.mybaits.beans.Department;
+
+public interface DepartmentMapperResultMap {
+
+	public Department getDeptById(Integer id);
+}

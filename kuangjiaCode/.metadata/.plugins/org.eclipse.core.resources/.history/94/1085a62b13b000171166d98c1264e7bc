@@ -1,0 +1,78 @@
+package mybatis.test;
+
+import java.io.InputStream;
+
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.junit.Test;
+
+import mybatis.bean.Employee;
+import mybatis.dao.EmployeeMapperResultMap;
+
+public class MyBatisTestResultMapTest {
+
+	public SqlSessionFactory getSqlSessionFactory() throws Exception {
+		InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
+		SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+		return sqlSessionFactory;
+	}
+
+	@Test
+	public void testGetEmpById() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			EmployeeMapperResultMap mapper = session.getMapper(EmployeeMapperResultMap.class);
+			Employee employee = mapper.getEmpById(1001);
+			System.out.println(employee);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testGetEmpById() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			EmployeeMapperResultMap mapper = session.getMapper(EmployeeMapperResultMap.class);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testGetEmpById() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			EmployeeMapperResultMap mapper = session.getMapper(EmployeeMapperResultMap.class);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testGetEmpById() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			EmployeeMapperResultMap mapper = session.getMapper(EmployeeMapperResultMap.class);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testGetEmpById() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			EmployeeMapperResultMap mapper = session.getMapper(EmployeeMapperResultMap.class);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+}

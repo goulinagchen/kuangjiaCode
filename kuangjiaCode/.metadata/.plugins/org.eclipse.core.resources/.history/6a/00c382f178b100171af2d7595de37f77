@@ -1,0 +1,63 @@
+package mybaits.test;
+
+import java.io.InputStream;
+import java.util.List;
+
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.junit.Test;
+
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
+import mybaits.bean.Employee;
+import mybatis.dao.EmployeeMapper;
+
+public class MyBatisTestCache {
+
+	public SqlSessionFactory getSqlSessionFactory() throws Exception {
+		InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
+		SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+		return sqlSessionFactory;
+	}
+
+	@Test
+	public void testPageHelper() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			Page<Object> page = PageHelper.startPage(2, 2);
+			EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
+			List<Employee> employees = mapper.getEmployees();
+			PageInfo<Employee> info = new PageInfo<>(employees, 4);
+			for (Employee employee : employees) {
+				System.out.println(employee);
+			}
+			System.out.println("----------------");
+			System.out.println("从page对象中获取的分页相关信息：");
+			System.out.println("当前页码：" + page.getPageNum());
+			System.out.println("总记录数：" + page.getTotal());
+			System.out.println("总记录数：" + page.getPageSize());
+			System.out.println("总页码：" + page.getPages());
+			System.out.println("----------------");
+			System.out.println("从pageInfo对象中获取的分页相关信息：");
+			System.out.println("当前页码：" + info.getPageNum());
+			System.out.println("总记录数：" + info.getTotal());
+			System.out.println("每页的记录数：" + info.getPageSize());
+			System.out.println("总页码：" + info.getPages());
+			System.out.println("是否为第一页：" + info.isIsFirstPage());
+			System.out.println("是否是尾页：" + info.isIsLastPage());
+			System.out.println("是否有上一页：" + info.isHasPreviousPage());
+			System.out.println("是否有下一页：" + info.isHasNextPage());
+			System.out.println("连续显示的页码：");
+			int[] nums = info.getNavigatepageNums();
+			for (int i : nums) {
+				System.out.println(i + " ");
+			}
+		} finally {
+			session.close();
+		}
+	}
+}

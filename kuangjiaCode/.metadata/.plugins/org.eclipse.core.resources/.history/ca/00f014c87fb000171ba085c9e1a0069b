@@ -1,0 +1,55 @@
+package com.atguigu.mybaits.test;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.junit.Test;
+
+import com.atguigu.mybaits.beans.Employee;
+import com.atguigu.mybatis.dao.EmployeeMapperCache;
+
+public class MyBatisTestCache {
+
+	public SqlSessionFactory getSqlSessionFactory() {
+		InputStream inputStream = null;
+		try {
+			inputStream = Resources.getResourceAsStream("mybatis-config.xml");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+		return sqlSessionFactory;
+	}
+
+	/**
+	 * MyBatis的二级缓存 一级缓存：SqlSession级别的(不同的SqlSession不共享数据)
+	 * 与数据库的一次会话期间查到的数据放到SqlSession对应的一级缓存中，以后需要获取相同的数据，直接从缓存中读取
+	 * 一级缓存失效：
+	 * 	1.SqlSession不同
+	 * 	2.SqlSession相同，查询条件不同
+	 * 	3.SqlSession相同，但两次查询中间有增删改操作的执行
+	 * 	4.SqlSession相同，但手动的清除了缓存
+	 */
+
+	@Test
+	public void test() {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			EmployeeMapperCache mapper = session.getMapper(EmployeeMapperCache.class);
+			Employee employee = mapper.getEmpById(1001);
+			System.out.println("第一次查询：" + employee);
+			System.out.println("----------------------");
+			Employee employee2 = mapper.getEmpById(1001);
+			System.out.println("第二次查询：" + employee2);
+			System.out.println("----------------------");
+			System.out.println("两次查询对象是否为一个对象：" + (employee == employee2));
+
+		} finally {
+			session.close();
+		}
+	}
+}

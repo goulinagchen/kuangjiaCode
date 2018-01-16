@@ -1,0 +1,18 @@
+package com.atguigu.mybatis.dao;
+
+import java.util.List;
+
+import com.atguigu.mybaits.beans.Employee;
+
+public interface EmployeeMapperDynamicSQL {
+
+	public List<Employee> getEmpsByConditonIf(Employee employee);
+
+	public List<Employee> getEmpsByConditionTrim(Employee employee);
+
+	public List<Employee> getEmpsByConditionChoose(Employee employee);
+
+	public void updateEmpByConditionSet(Employee employee);
+
+	public List<Employee> getEmpsByConditionForeach(List<Integer> ids);
+}

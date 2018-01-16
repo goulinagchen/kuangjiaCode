@@ -1,0 +1,16 @@
+package struts2.action;
+
+import com.opensymphony.xwork2.ActionSupport;
+
+public class UserAction extends ActionSupport {
+
+	private String username;
+	private String password;
+
+	public String login() {
+		if ("admin".equals(username) && "1234".equals(password)) {
+			return SUCCESS;
+		}
+		return LOGIN;
+	}
+}

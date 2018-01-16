@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;Hibernate11/conf&apos; to &apos;lib&apos;" description="Rename resource &apos;conf&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="conf" name="lib" stamp="1508234442794" updateReferences="true"/>
+</session>

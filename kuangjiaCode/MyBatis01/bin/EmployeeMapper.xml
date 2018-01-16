@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- Sql映射文件: 定义每一条sql语句  -->
+<!-- 
+	namespace:名称空间. 
+			  1.目前可以随便写.
+			  2.如果将来使用的是Mapper接口开发，则namesapce必须写成接口的全类名.
+			         目的:将maapper接口与sql映射文件动态绑定. 
+ -->
+<mapper namespace="com.atguigu.mybatis.dao.EmployeeMapper">
+	
+	<!-- 
+		select: 定义查询的sql语句
+		id:sql语句的唯一标示
+		resultType:声明返回值类型 
+		#{id}: 从传递过来的参数中取出id值
+	 -->
+	<select id="selectEmployee" resultType="com.atguigu.mybaits.beans.Employee">
+		<!-- select * from tbl_employee where id = #{id} -->
+		select id , last_name lastName, gender ,email from tbl_employee where id = #{id}
+	</select>
+	
+	<!-- 
+		接口中的方法名 与 sql语句的id一样: 将接口的方法与sql语句绑定.
+	 -->
+	<select id="getEmployeeById" resultType="com.atguigu.mybaits.beans.Employee" databaseId="mysql">
+		select * from tbl_employee where id = #{id}
+		<!-- select id,last_name lastName, gender, email from tbl_employee where id = #{id} -->
+	</select>
+	
+	<select id="getEmployeeById" resultType="com.atguigu.mybaits.beans.Employee" databaseId="oracle">
+		select * from orcl_employee where id = #{id}
+		<!-- select id,last_name lastName, gender, email from tbl_employee where id = #{id} -->
+	</select>
+	
+	<select id="getEmployeeById" resultType="com.atguigu.mybaits.beans.Employee">
+		select * from tbl_employee where id = #{id}
+		<!-- select id,last_name lastName, gender, email from tbl_employee where id = #{id} -->
+	</select>
+	
+	
+</mapper>

@@ -1,0 +1,5 @@
+package mybatis.test;
+
+public class EmployeeMapperResultMapTest {
+
+}

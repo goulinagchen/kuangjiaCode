@@ -1,0 +1,16 @@
+package mybatis.dao;
+
+import java.util.List;
+
+import mybatis.bean.Employee;
+
+public interface EmployeeMapperResultMap {
+
+	public Employee getEmpById(Integer id);
+
+	public Employee getEmpAndDept(Integer id);
+
+	public Employee getEmpAndDeptStep(Integer id);
+
+	public List<Employee> getEmpsByD_id(Integer did);
+}

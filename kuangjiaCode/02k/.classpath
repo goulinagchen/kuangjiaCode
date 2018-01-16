@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="cofi"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="lib" path="libs/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="libs/spring-beans-4.0.0.RELEASE.jar" sourcepath="F:/Java/框架/Spring/spring-framework-4.0.0.RELEASE/libs/spring-beans-4.0.0.RELEASE-sources.jar"/>
+	<classpathentry kind="lib" path="libs/spring-context-4.0.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="libs/spring-core-4.0.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="libs/spring-expression-4.0.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="libs/c3p0-0.9.1.jar"/>
+	<classpathentry kind="lib" path="libs/mysql-connector-java-5.1.7-bin.jar"/>
+	<classpathentry kind="lib" path="libs/spring-aop-4.0.0.RELEASE.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

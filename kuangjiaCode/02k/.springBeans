@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[3.7.3.201602250914-RELEASE]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[false]]></enableImports>
+	<configs>
+		<config>cofi/relation.xml</config>
+		<config>cofi/scope.xml</config>
+		<config>cofi/datasource.xml</config>
+		<config>cofi/sple.xml</config>
+		<config>cofi/relation2.xml</config>
+		<config>cofi/scope2.xml</config>
+		<config>cofi/sple2.xml</config>
+		<config>cofi/lifecycle.xml</config>
+		<config>cofi/factory.xml</config>
+		<config>cofi/annotation.xml</config>
+	</configs>
+	<autoconfigs>
+	</autoconfigs>
+	<configSets>
+	</configSets>
+</beansProjectDescription>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Car -->
+	<bean id="car" class="com.atguigu.spring.lifecycle.Car" 
+		init-method="init"  destroy-method="destroy" >
+		<property name="brand" value="QQ"></property>
+		<property name="price" value="30000"></property>
+	</bean>
+	
+	
+	<!-- 配置BeanPostProcessor 
+	     Spring会自动识别为一个bean的后置处理器.
+	-->
+	<bean  class="com.atguigu.spring.lifecycle.MyBeanPostProcessor"></bean>
+
+</beans>

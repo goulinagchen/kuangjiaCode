@@ -1,0 +1,5 @@
+package hibernate.bean;
+
+public class Student {
+
+}

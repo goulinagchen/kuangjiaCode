@@ -1,0 +1,5 @@
+package ssm.handler;
+
+public class DepartmentHandler {
+
+}

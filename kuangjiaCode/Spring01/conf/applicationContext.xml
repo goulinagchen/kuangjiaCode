@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 配置bean
+		 
+		 id:  bean的唯一标识.
+		 class:指定全类名.  根据反射创建对象
+		 	   Class cls = Class.forName("com.atguigu.spring.helloword.HelloWorld");
+		 	   Object obj = cls.newInstance();
+		 property：
+		 	name：指定属性名  跟set风格的属性名对应.
+		 	value:属性值.
+	 -->
+	<bean id ="helloWorld"  class="com.atguigu.spring.helloword.HelloWorld"> 
+		<property name="userName" value="Spring"></property>
+	</bean>
+	
+	<bean id ="helloWorld1"  class="com.atguigu.spring.helloword.HelloWorld"> 
+		<property name="userName" value="Spring1"></property>
+	</bean>
+
+</beans>

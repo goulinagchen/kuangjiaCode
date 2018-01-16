@@ -1,0 +1,105 @@
+package com.atguigu.springmvc.crud.handler;
+
+import java.util.Collection;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.atguigu.springmvc.crud.dao.DepartmentDao;
+import com.atguigu.springmvc.crud.dao.EmployeeDao;
+import com.atguigu.springmvc.crud.entities.Department;
+import com.atguigu.springmvc.crud.entities.Employee;
+
+@Controller
+public class CRUDHandler {
+	
+	@Autowired
+	private EmployeeDao employeeDao ;
+	
+	@Autowired
+	private DepartmentDao departmentDao ;
+	/**
+	 * 查询员工，显示列表
+	 */
+	@RequestMapping(value="/employees",method=RequestMethod.GET)
+	public String  getAllEmps(Map<String,Object> map) {
+		//jdbc: 查询所有的员工,转发到页面
+		Collection<Employee> emps = employeeDao.getAll();
+		map.put("employees", emps);
+		return "list";
+	}
+	/**
+	 * 添加页面中需要有部门信息,因此去往添加页面之前，将部门信息查询出来，存放
+	 * 到request域对象，再转发到添加页面.
+	 */
+	@RequestMapping(value="/emp",method=RequestMethod.GET)
+	public String toAddPage(Map<String,Object> map) {
+		Collection<Department> depts = departmentDao.getDepartments();
+		map.put("deparments", depts);
+		//解决SpringMVC表单标签必须回显值的问题
+		map.put("employee",new Employee());
+		return "input";
+	}
+	
+	/**
+	 * 添加操作
+	 */
+	@RequestMapping(value="/emp",method=RequestMethod.POST)
+	public String addEmp(Employee employee) {
+		
+		System.out.println("addEmp  employee:" +employee);
+		employeeDao.save(employee);
+		//回到列表页面
+		return "redirect:/employees";
+	}
+	
+	/**
+	 * 删除操作
+	 */
+	@RequestMapping(value="emp/{id}",method=RequestMethod.DELETE)
+	public String deleteEmp(@PathVariable("id")Integer id ) {
+		employeeDao.delete(id);
+		
+		return "redirect:/employees";
+	}
+	
+	/**
+	 * 修改前的查询
+	 */
+	@RequestMapping(value="/emp/{id}",method=RequestMethod.GET)
+	public String toUpdatePage(@PathVariable("id")Integer id,Map<String,Object> map ) {
+		Employee employee = employeeDao.get(id);
+		map.put("employee", employee);
+		//修改页面需要部门信息，查询部门信息
+		Collection<Department> departments = departmentDao.getDepartments();
+		map.put("deparments", departments);
+		
+		return "input";
+	}
+	/**
+	 * 修改
+	 */
+	
+	@RequestMapping(value="/emp",method=RequestMethod.PUT)
+	public String  updateEmp(Employee employee) {
+		employeeDao.save(employee);
+		return "redirect:/employees";
+	}
+	
+	@ModelAttribute
+	public void getEmployee(@RequestParam(value="id",required=false)Integer id ,
+				Map<String,Object> map) {
+		if(id !=null) {
+			Employee employee = employeeDao.get(id);
+			map.put("employee",employee );
+		}
+	}
+}

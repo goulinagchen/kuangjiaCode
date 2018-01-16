@@ -1,0 +1,21 @@
+package hebernate.test;
+
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistryBuilder;
+import org.junit.Test;
+
+public class HibernateTest {
+
+	@Test
+	public void testSessionFactory() {
+		Configuration cfg = new Configuration();
+		cfg.configure();// 省略hibernate.cfg.xml
+
+		ServiceRegistryBuilder srb = new ServiceRegistryBuilder();
+		srb.applySettings(cfg.getProperty());
+		
+		
+		
+		
+	}
+}

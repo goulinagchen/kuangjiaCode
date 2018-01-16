@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.mybatis.dao.DepartmentMapperResultMap">
+	<select id="getDeptById" resultType="com.atguigu.mybaits.beans.Department">
+		select id,dept_name departmentName from tal_dept where id = #{id}
+	</select>
+	<select id="getEmpAndDeptStep" resultMap="MyEmpAndDeptStep">
+		select * from tal_employee where id = #{id}
+	</select>
+	<resultMap type="com.atguigu.mybaits.beans.Employee" id="MyEmpAndDeptStep">
+		<id column="id" property="id"/>
+		<result column="last_name" property="lastName"/>
+		<result column="email" property="email"/>
+		<result column="gender" property="gender"/>
+		<association property="dept" 
+			select="com.atguigu.mybatis.dao.DepartmentMapperResultMap.getDeptById" column="d_id">
+		</association>
+	</resultMap>
+	
+	<!-- 分步查询可使用延迟加载
+		延迟加载：将一些暂时不需要的数据不进行加载，等到需要时在进行加载。
+		在分步查询的基础上加载配置：
+	 -->
+	
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+
+	<constant name="struts.devMode" value="true"></constant>
+	<constant name="struts.action.extension" value="action,do,,"></constant>
+	
+	<package name="default" namespace="/" extends="struts-default">
+		
+		<interceptors>
+			<interceptor name="myInterceptor" class="struts2.interceptor.MyInterceptor"></interceptor>
+			<interceptor-stack name="myDefault">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="myInterceptor"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		
+		<default-interceptor-ref name="myDefault"></default-interceptor-ref>
+		
+		<global-results>
+			<result name="error" type="redirect">/error.jsp</result>
+		</global-results>
+		
+		<global-exception-mappings>
+			<exception-mapping result="error" exception="java.lang.ArithmeticException"></exception-mapping>
+			<exception-mapping result="error" exception="java.lang.NullPointerException"></exception-mapping>
+			<exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>
+		</global-exception-mappings>
+		
+		<action name="login" class="struts2.action.UserAction" method="login">
+			<result name="success" type="dispatcher">/WEB-INF/view/success.jsp</result>
+			<result name="login" type="dispatcher">/login.jsp</result>
+		</action>
+	</package>
+	
+</struts>

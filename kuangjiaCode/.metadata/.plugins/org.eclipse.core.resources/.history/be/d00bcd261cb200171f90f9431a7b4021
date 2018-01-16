@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	
+	
+    <constant name="struts.devMode" value="true" />
+
+	<!-- package:
+			name:package的名字，唯一标识
+			namespace:名称空间
+			extends:指定继承自那个package. struts-depault是框架定义好的一个package
+			action:定义请求与action方法的映射关系，以及响应的处理
+				name:指定请求名
+				class:指定action处理方法的类
+				method:指定action方法名
+				
+				result:
+					name:对应action类中处理方法的返回值
+					tyep:响应方式
+	 -->
+    <package name="default" namespace="/" extends="struts-default">
+
+        <action name="login" class="structs2.action.UserAction" method="login">
+            <result type="dispatcher" name="success">/WEB-INF/view/main.jsp</result>
+            <result name="login" type="redirect">/login.jsp</result>
+        </action>
+    </package>
+
+    <include file="example.xml"/>
+
+    <!-- Add packages here -->
+
+</struts>

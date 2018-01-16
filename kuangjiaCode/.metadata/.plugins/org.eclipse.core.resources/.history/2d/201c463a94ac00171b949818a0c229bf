@@ -1,0 +1,5 @@
+package springmvc.interceptor;
+
+public class MyInterceptor {
+
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Address -->
+	<bean id="address1" class="com.atguigu.spring.autowire.Address" 
+		p:city="BeiJing" p:street="HuiLongGuan">
+	</bean>
+	
+	<bean id="address2" class="com.atguigu.spring.autowire.Address" 
+		p:city="BeiJing" p:street="HuiLongGuanDongDaJie">
+	</bean>
+	
+	<!-- Car -->
+	<bean id="car" class="com.atguigu.spring.autowire.Car"
+	   p:brand="Audi" p:price="400000">
+	</bean>
+	
+	<!-- Person 
+		byName:根据IOC容器中bean的id,与要装配的bean的set风格的属性名进行匹配
+		byType:根据IOC容器中的bean的类型 与要在装配的bean的属性的类型进行匹配
+	-->
+	<bean id="person" class="com.atguigu.spring.autowire.Person"
+		p:name="ZhangWuJi" autowire="byType">
+	</bean>
+</beans>

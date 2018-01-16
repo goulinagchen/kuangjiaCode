@@ -1,0 +1,17 @@
+package structs2.action;
+
+public class UserAction {
+
+	private String username;
+
+	private String password;
+
+	@
+
+	public String login() {
+
+		
+		return "";
+	}
+
+}

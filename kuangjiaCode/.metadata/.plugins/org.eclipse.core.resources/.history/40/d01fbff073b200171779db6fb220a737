@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ssm.mapper.DepartmentMapper">
+	
+	<select id="getDepartments" resultMap="myDepartments">
+		select *
+		from tal_dept
+	</select>
+	<resultMap type="ssm.bean.Department" id="myDepartments">
+		<id  column="id" property="id"/>
+		<result column="dept_name" property="departmentName"/>
+	</resultMap>
+	
+	<select id="getDepartment" resultType="myDepartment">
+		select *
+		from tal_dept
+		where id = #{id}
+	</select>
+	<resultMap type="ssm.bean.Department" id="myDepartment">
+		
+	</resultMap>
+	
+</mapper>

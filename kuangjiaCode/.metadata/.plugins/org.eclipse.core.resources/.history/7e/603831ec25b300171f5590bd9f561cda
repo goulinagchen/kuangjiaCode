@@ -1,0 +1,41 @@
+package hibernate.bean;
+
+import javax.transaction.Transaction;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+import org.hibernate.service.ServiceRegistryBuilder;
+import org.junit.Test;
+
+public class HibernateTest {
+
+	@Test
+	public SessionFactory testSessionFactory() {
+
+		Configuration configuration = new Configuration();
+		configuration.configure();
+
+		ServiceRegistryBuilder builder = new ServiceRegistryBuilder();
+		builder.applySettings(configuration.getProperties());
+		ServiceRegistry serviceRegistry = builder.buildServiceRegistry();
+		SessionFactory buildSessionFactory = configuration.buildSessionFactory(serviceRegistry);
+		System.out.println(buildSessionFactory);
+		return buildSessionFactory;
+	}
+
+	@Test
+	public void testStudent() {
+		SessionFactory sessionFactory = testSessionFactory();
+		Session session = sessionFactory.openSession();
+		Transaction ts = null;
+		try {
+			ts = session.beginTransaction();
+		} catch (Exception e) {
+			ts.rollback();
+		} finally {
+			session.close();
+		}
+	}
+}

@@ -1,0 +1,59 @@
+package springmvc.interceptor;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
+/**
+ * 拦截器方法执行顺序：preHandle->postHandle->afterCompletion
+ * @author liang
+ *
+ */
+public class MyInterceptor implements HandlerInterceptor{
+
+	@Override
+	/**
+	 * 第一个执行
+	 * @param request
+	 * @param response
+	 * @param handler
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+			throws Exception {
+		System.out.println("MyInterceptor preHandle..");
+		return true;
+	}
+
+	@Override
+	/**
+	 * 第二个执行
+	 * @param request
+	 * @param response
+	 * @param handler
+	 * @param modelAndView
+	 * @throws Exception
+	 */
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+			ModelAndView modelAndView) throws Exception {
+		System.out.println("MyInterceptor postHandle..");
+	}
+
+	@Override
+	/**
+	 * 第三个执行
+	 * @param request
+	 * @param response
+	 * @param handler
+	 * @param ex
+	 * @throws Exception
+	 */
+	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
+			throws Exception {
+		System.out.println("MyInterceptor afterCompletion..");
+	}
+
+}

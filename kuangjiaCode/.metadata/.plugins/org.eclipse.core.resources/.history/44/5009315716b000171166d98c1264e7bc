@@ -1,0 +1,141 @@
+package mybatis.test;
+
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.junit.Test;
+
+import mybatis.bean.Department;
+import mybatis.bean.Employee;
+import mybatis.dao.EmployeeMapperDynamicSQL;
+
+public class MyBatisTestDynamicSQLTest {
+
+	public SqlSessionFactory getSqlSessionFactory() throws Exception {
+		InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
+		SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+		return sqlSessionFactory;
+	}
+
+	@Test
+	public void testGetEmpsByConditionTrim() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			EmployeeMapperDynamicSQL mapper = session.getMapper(EmployeeMapperDynamicSQL.class);
+			Employee employee = new Employee();
+			// employee.setId(1001);
+			employee.setLastName("Tom");
+			employee.setEmail("tom@sina.com");
+			// employee.setGender("1");
+			List<Employee> list = mapper.getEmpsByConditionIf(employee);
+			System.out.println(list);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testGetEmpsByConditionChoose() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			EmployeeMapperDynamicSQL mapper = session.getMapper(EmployeeMapperDynamicSQL.class);
+			Employee employee = new Employee();
+			// employee.setId(1001);
+			employee.setLastName("Tom");
+			employee.setEmail("tom@sina.com");
+			// employee.setGender("1");
+			List<Employee> list = mapper.getEmpsByConditionTrim(employee);
+			System.out.println(list);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testUpdateEmpByConditionSet() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			EmployeeMapperDynamicSQL mapper = session.getMapper(EmployeeMapperDynamicSQL.class);
+			Employee employee = new Employee();
+			// employee.setId(1001);
+			employee.setLastName("Tom");
+			employee.setEmail("tom@sina.com");
+			// employee.setGender("1");
+			List<Employee> list = mapper.getEmpsByConditionChoose(employee);
+			System.out.println(list);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testGetEmpsByConditionForeach() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			EmployeeMapperDynamicSQL mapper = session.getMapper(EmployeeMapperDynamicSQL.class);
+			Employee employee = new Employee();
+			employee.setId(1001);
+			employee.setLastName("TomAA");
+			employee.setEmail("tomaa@sian.com");
+			// employee.setGender("0");
+			mapper.updateEmpByConditionSet(employee);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testAddEmpsBatch() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			EmployeeMapperDynamicSQL mapper = session.getMapper(EmployeeMapperDynamicSQL.class);
+			ArrayList<Integer> ids = new ArrayList<Integer>();
+			ids.add(1001);
+			ids.add(1004);
+			List<Employee> emps = mapper.getEmpsByConditionForeach(ids);
+			System.out.println(emps);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testGetEmpsTestInnerParameter() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			EmployeeMapperDynamicSQL mapper = session.getMapper(EmployeeMapperDynamicSQL.class);
+			ArrayList<Employee> emps = new ArrayList<Employee>();
+			emps.add(new Employee("AA", "0", "aa@sina.com", new Department(1)));
+			emps.add(new Employee("BB", "1", "bb@sina.com", new Department(2)));
+			emps.add(new Employee("CC", "0", "cc@sina.com", new Department(3)));
+			emps.add(new Employee("DD", "1", "dd@sina.com", new Department(2)));
+			emps.add(new Employee("EE", "0", "ee@sina.com", new Department(1)));
+			
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testGetEmpsByConditionIf() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			EmployeeMapperDynamicSQL mapper = session.getMapper(EmployeeMapperDynamicSQL.class);
+
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+}

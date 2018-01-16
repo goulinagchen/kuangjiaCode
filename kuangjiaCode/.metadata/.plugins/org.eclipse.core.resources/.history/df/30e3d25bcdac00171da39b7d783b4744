@@ -1,0 +1,70 @@
+package springmvc.listener;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextAttributeEvent;
+import javax.servlet.ServletContextAttributeListener;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+/**
+ * Application Lifecycle Listener implementation class
+ * SpringApplicationContextListener
+ *
+ */
+public class SpringApplicationContextListener implements ServletContextListener, ServletContextAttributeListener {
+
+	/**
+	 * Default constructor.
+	 */
+	public SpringApplicationContextListener() {
+		//
+	}
+
+	/**
+	 * @see ServletContextAttributeListener#attributeAdded(ServletContextAttributeEvent)
+	 */
+	public void attributeAdded(ServletContextAttributeEvent arg0) {
+		// 当往ServletContext中绑定数据的时候会执行该方法
+	}
+
+	/**
+	 * @see ServletContextAttributeListener#attributeRemoved(ServletContextAttributeEvent)
+	 */
+	public void attributeRemoved(ServletContextAttributeEvent arg0) {
+		// 当从ServletContext中移除数据的时候会执行该方法
+	}
+
+	/**
+	 * @see ServletContextListener#contextDestroyed(ServletContextEvent)
+	 */
+	public void contextDestroyed(ServletContextEvent arg0) {
+		// 当ServletContext对象销毁的时候执行该方法
+	}
+
+	/**
+	 * @see ServletContextAttributeListener#attributeReplaced(ServletContextAttributeEvent)
+	 */
+	public void attributeReplaced(ServletContextAttributeEvent arg0) {
+		// 当替换ServletContext中的数据时会执行该方法
+	}
+
+	/**
+	 * @see ServletContextListener#contextInitialized(ServletContextEvent)
+	 */
+	public void contextInitialized(ServletContextEvent arg0) {
+		// 当ServletContext初始化的时候执行该方法
+
+		// 把容器对象设置到ServletContext中
+		ServletContext servletContext = arg0.getServletContext();
+		// 获取初始化参数
+		String parameter = servletContext.getInitParameter("applicationContext");
+		// 创建Spring的容器
+		ApplicationContext context = new ClassPathXmlApplicationContext(parameter);
+		servletContext.setAttribute("applicationContext", context);
+
+	}
+
+}

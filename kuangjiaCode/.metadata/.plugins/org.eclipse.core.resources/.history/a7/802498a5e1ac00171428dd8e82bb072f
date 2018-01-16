@@ -1,0 +1,25 @@
+package springmvc.handler;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import springmvc.service.UserService;
+
+@Controller
+public class UserHandler {
+
+	@Autowired
+	private UserService uService;
+
+	public UserHandler() {
+		System.out.println("UserHandler Constructor...");
+	}
+
+	@RequestMapping("/login")
+	public String login() {
+		System.out.println("userService: " + uService);
+		uService.login();
+		return "success";
+	}
+}

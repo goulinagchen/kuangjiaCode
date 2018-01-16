@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<!-- 
+	DTD: 文档类型定义
+	Schema(xsd): 标准化的技术
+	<!ELEMENT>: 声明标签/元素
+	():分组
+	,:顺序
+	?: 最多一次
+	*: 任意次数
+	+: 最少一次
+	|: 或
+    <!ATTLIST>:声明属性   
+    CDATA: 字符数据  所有的字符数据被当做普通的字符使用， 不会被xml解析器解析到.
+    PCDATA: 解析的字符数据   如果有特殊字符，可以被xml解析器解析到.  
+    REQUIRED: 必须
+    IMPLIED:  可选
+ -->
+
+<hibernate-configuration>
+	
+	<session-factory>
+		<!-- 数据库的连接信息  必选 -->
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/mybatis_0706</property>
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.password">1234</property>
+		
+		
+		<!-- 配置数据库的方言 
+		org.hibernate.dialect.MySQL5InnoDBDialect : 数据库的版本是大于等于5.5
+		org.hibernate.dialect.MySQLInnoDBDialect:小于5.5版本
+		-->
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+		
+		<!-- 在控制台打印生成的sql -->
+		<property name="hibernate.show_sql">true</property>
+		<property name="hibernate.format_sql">true</property>	
+		<!-- 是否自动创建表结构 
+			create:每次都将旧表删除,创建新表. 
+			update:
+				1.如果数据库没有表，则创建新表
+				2.如果数据库有对应的表，表结构没有变化，则直接使用
+				3.如果数据库有对应的表，切表结构有变化，则更新数据库中已存在的表
+			create-drop: 每次都创建新表，在执行完后再将表删除
+			validate:跟数据库中的表做比较，如果发现映射文件中的字段在表中不存在，则抛出异常.
+		-->
+		<property name="hibernate.hbm2ddl.auto">validate</property>
+	
+		<!-- 引入映射文件 -->
+		<mapping resource="com/atguigu/hibernate/beans/Student.hbm.xml"/>
+		
+	</session-factory>	
+</hibernate-configuration>

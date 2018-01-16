@@ -1,0 +1,63 @@
+package hebernate.test;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+import org.hibernate.service.ServiceRegistryBuilder;
+import org.junit.Test;
+
+import hebernate.bean.Student;
+
+public class HibernateTest {
+
+	public SessionFactory testSessionFactory() {
+		Configuration cfg = new Configuration();
+		cfg.configure();// 省略hibernate.cfg.xml
+
+		ServiceRegistryBuilder srb = new ServiceRegistryBuilder();
+		srb.applySettings(cfg.getProperties());
+		ServiceRegistry serviceRegistry = srb.buildServiceRegistry();
+		SessionFactory sessionFactory = cfg.buildSessionFactory(serviceRegistry);
+		return sessionFactory;
+	}
+
+	@Test
+	public void saveStudent() {
+		SessionFactory sessionFactory = testSessionFactory();
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			Student student = new Student("Jerry", 21, "jerry@sina.com");
+			session.save(student);
+			Student student2 = (Student) session.get(Student.class, 1);
+
+			// student.setStudentAge(22);
+			// student.setStudentName("Tom");
+			// session.save(student);
+			tx.commit();
+		} catch (Exception e) {
+			tx.rollback();
+		} finally {
+			session.close();
+			sessionFactory.close();
+		}
+	}
+
+	@Test
+	public void testSessionCache() {
+		SessionFactory sessionFactory = testSessionFactory();
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+		try {
+
+			tx.commit();
+		} catch (Exception e) {
+			tx.rollback();
+		} finally {
+			session.close();
+		}
+	}
+}

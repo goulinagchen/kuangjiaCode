@@ -1,0 +1,199 @@
+package mybatis.test;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.junit.Test;
+
+import mybatis.bean.Employee;
+import mybatis.dao.EmployeeMapper;
+
+public class EmployeeMapperTest {
+
+	public SqlSessionFactory getSqlSessionFactory() {
+		InputStream inputStream = null;
+		try {
+			inputStream = Resources.getResourceAsStream("mybatis-config.xml");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+		return sqlSessionFactory;
+	}
+
+	@Test
+	public void testHelloWorld() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			Employee employee = session.selectOne("mybatis.dao.EmployeeMapper.selectEmployee", 1001);
+			System.out.println(employee);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testAddEmp() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			Employee employee = new Employee("zsf", "1", "zsf@sina.com");
+			EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
+			boolean addEmp = mapper.addEmp(employee);
+			System.out.println(addEmp);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testUpdateEmp() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			Employee employee = new Employee(1002, "Orwen", "0", "ow@sina.com");
+			EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
+			boolean updateEmp = mapper.updateEmp(employee);
+			System.out.println(updateEmp);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testDeleteEmp() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			Employee employee = session.selectOne("mybatis.dao.EmployeeMapper.selectEmployee", 1001);
+			System.out.println(employee);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testHelloWorld() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			Employee employee = session.selectOne("mybatis.dao.EmployeeMapper.selectEmployee", 1001);
+			System.out.println(employee);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testHelloWorld() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			Employee employee = session.selectOne("mybatis.dao.EmployeeMapper.selectEmployee", 1001);
+			System.out.println(employee);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testHelloWorld() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			Employee employee = session.selectOne("mybatis.dao.EmployeeMapper.selectEmployee", 1001);
+			System.out.println(employee);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testHelloWorld() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			Employee employee = session.selectOne("mybatis.dao.EmployeeMapper.selectEmployee", 1001);
+			System.out.println(employee);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testHelloWorld() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			Employee employee = session.selectOne("mybatis.dao.EmployeeMapper.selectEmployee", 1001);
+			System.out.println(employee);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testHelloWorld() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			Employee employee = session.selectOne("mybatis.dao.EmployeeMapper.selectEmployee", 1001);
+			System.out.println(employee);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testHelloWorld() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			Employee employee = session.selectOne("mybatis.dao.EmployeeMapper.selectEmployee", 1001);
+			System.out.println(employee);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testHelloWorld() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			Employee employee = session.selectOne("mybatis.dao.EmployeeMapper.selectEmployee", 1001);
+			System.out.println(employee);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testHelloWorld() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			Employee employee = session.selectOne("mybatis.dao.EmployeeMapper.selectEmployee", 1001);
+			System.out.println(employee);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testHelloWorld() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			Employee employee = session.selectOne("mybatis.dao.EmployeeMapper.selectEmployee", 1001);
+			System.out.println(employee);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+}

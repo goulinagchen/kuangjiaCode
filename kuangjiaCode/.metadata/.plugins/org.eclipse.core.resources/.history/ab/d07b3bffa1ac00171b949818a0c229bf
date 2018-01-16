@@ -1,0 +1,13 @@
+package springmvc.exceptionhandler;
+
+import org.springframework.web.bind.annotation.ControllerAdvice;
+
+/**
+ * 其他类可以尝试在此类中查找异常
+ * @author liang
+ *
+ */
+@ControllerAdvice//标注为异常处理类
+public class MyExceptionHandler {
+
+}

@@ -1,0 +1,9 @@
+package springmvc.bean;
+
+public class Person {
+
+	private String name;
+	public void hello(){
+		System.out.println("My name is "+name);
+	}
+}

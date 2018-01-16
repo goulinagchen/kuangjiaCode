@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.mybatis.dao.EmployeeMapperDynamicSQL">
+
+	<!-- test:判断条件，使用OGNL表达式来写
+			特殊字符：  使用转义字符
+					使用OGNL提供的写法
+		where 在sql语句中加上where，并能处理第一个and的问题
+	 -->
+	<select id="getEmpsByConditionIf" resultType="com.atguigu.mybaits.beans.Employee">
+		select * 
+		from tal_employee 
+		<!-- <where>
+			<if test="id!=null">
+				id = #{id} and
+			</if>
+			<if test="lastName!=null &amp;&amp; lastName.trim()!=&quot;&quot;">
+				last_name = #{lastName}	and
+			</if>
+			<if test="email != null and email.trim() != '' ">
+				email = #{email} and 
+			</if>
+			<if test="gender==0 or gender==1">
+				gender = #{gender}
+			</if>
+		</where> -->
+		<!-- trim 
+				prefix:前缀
+				prefixOverrides:前缀覆盖(去掉)
+				suffix:后缀
+				suffixOverrides:后缀覆盖(去掉)
+		 -->
+		<trim prefix="where" suffixOverrides="and">
+			<if test="id!=null">
+				id = #{id} and
+			</if>
+			<if test="lastName!=null &amp;&amp; lastName.trim()!=&quot;&quot;">
+				last_name = #{lastName}	and
+			</if>
+			<if test="email != null and email.trim() != '' ">
+				email = #{email} and 
+			</if>
+			<if test="gender==0 or gender==1">
+				gender = #{gender}
+			</if>
+		</trim>
+		<!-- where 1=1
+		<if test="id!=null">
+			id = #{id}
+		</if>
+		<if test="lastName!=null &amp;&amp; lastName.trim()!=&quot;&quot;">
+			and last_name = #{lastName}	
+		</if>
+		<if test="email != null and email.trim() != '' ">
+			and email = #{email}
+		</if>
+		<if test="gender==0 or gender==1">
+			and gender = #{gender}
+		</if> -->
+	</select>
+	<!-- choose:类似与带了break的switch case
+				
+	 -->
+	<select id="getEmpsByConditionChoose" resultType="com.atguigu.mybatis.beans.Employee">
+		select *
+		from tal_employee
+		<where>
+			<choose>
+				<when test="id!=null">
+					id = #{id}
+				</when>
+				<when test="lastName!=null and lastName!='' ">
+					last_name = #{lastName}
+				</when>
+				<otherwise>
+					gender = 0
+				</otherwise>
+			</choose>
+		</where>
+	</select>
+	
+</mapper>

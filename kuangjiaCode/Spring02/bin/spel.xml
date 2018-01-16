@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- Address -->
+	<bean id="address" class="com.atguigu.spring.spel.Address">
+		<property name="city" value="BeiJing"></property>
+		<!-- 使用spel为字符串的属性赋字面值 -->
+		<property name="street" value="#{'HuiLongGuan'.toUpperCase()}"></property>
+	</bean>
+	
+	<!-- Car -->
+	<bean id="car" class="com.atguigu.spring.spel.Car">
+		<property name="brand" value="Audi"></property>
+		<property name="price" value="#{400000}"></property>
+		<property name="tyrePerimeter" value="#{T(java.lang.Math).PI * 100}"></property>
+	</bean>
+
+	<!-- Person -->
+	<bean id="person" class="com.atguigu.spring.spel.Person">
+		<property name="name" value="Tom"></property>
+		<!-- 使用spel引用其他bean的属性  -->
+		<property name="city" value="#{address.city}"></property>
+		<!-- 使用spel引用其他的bean -->
+		<property name="car" value="#{car}"></property>
+		<!-- 使用spel判断 -->
+		<property name="info" value="#{car.price>=300000?'码神':'码农'}"></property>
+	</bean>
+</beans>

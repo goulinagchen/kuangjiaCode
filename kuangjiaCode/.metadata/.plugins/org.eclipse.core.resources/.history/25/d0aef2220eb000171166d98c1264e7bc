@@ -1,0 +1,179 @@
+package mybatis.test;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.junit.Test;
+
+import mybatis.bean.Employee;
+import mybatis.dao.EmployeeMapper;
+
+public class EmployeeMapperTest {
+
+	public SqlSessionFactory getSqlSessionFactory() {
+		InputStream inputStream = null;
+		try {
+			inputStream = Resources.getResourceAsStream("mybatis-config.xml");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+		return sqlSessionFactory;
+	}
+
+	@Test
+	public void testHelloWorld() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			Employee employee = session.selectOne("mybatis.dao.EmployeeMapper.selectEmployee", 1001);
+			System.out.println(employee);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testAddEmp() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			Employee employee = new Employee("zsf", "1", "zsf@sina.com");
+			EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
+			boolean addEmp = mapper.addEmp(employee);
+			System.out.println(addEmp);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testUpdateEmp() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			Employee employee = new Employee(1002, "Orwen", "0", "ow@sina.com");
+			EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
+			boolean updateEmp = mapper.updateEmp(employee);
+			System.out.println(updateEmp);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testDeleteEmp() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
+			boolean deleteEmp = mapper.deleteEmp(1002);
+			System.out.println(deleteEmp);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testParameter() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
+			Employee employee = mapper.getEmpByIdAndLastName(1003, "zsf");
+			System.out.println(employee);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testParameterMap() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
+			Map<String, Object> map = new HashMap<>();
+			map.put("id", 1001);
+			map.put("lastName", "Tom");
+			map.put("tableName", "tal_employee");
+			Employee employee = mapper.getEmpByMap(map);
+			System.out.println(employee);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testGetEmpByLastNameReturnList() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
+			List<Employee> list = mapper.getEmpsByLastName("%o%");
+			System.out.println(list);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testGetEmpByIdReturnMap() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
+			Map<String, Object> map = mapper.getEmpByIdReturnMap(1006);
+			System.out.println(map);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testGetEmpByLastNameReturnMap() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
+			Map<String, Employee> map = mapper.getEmpsByLastNameReturnMap("%o%");
+			System.out.println(map);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testResultMap() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
+			Employee employee = mapper.getEmpByIdWithResultMap(1006);
+			System.out.println(employee);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void testGetEmpAndDept() throws Exception {
+		SqlSession session = getSqlSessionFactory().openSession();
+		try {
+			EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
+			Employee employee = mapper.getEmpAndDeptWithResultMap(1006);
+			System.out.println(employee);
+			session.commit();
+		} finally {
+			session.close();
+		}
+	}
+
+}

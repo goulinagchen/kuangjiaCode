@@ -1,0 +1,21 @@
+package springmvc.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import springmvc.dao.UserDao;
+
+@Service
+public class UserService {
+
+	@Autowired
+	private UserDao userDao;
+
+	public UserService() {
+		System.out.println("UserService Constroller...");
+	}
+
+	public void login() {
+		System.out.println("userDao: " + userDao);
+	}
+}

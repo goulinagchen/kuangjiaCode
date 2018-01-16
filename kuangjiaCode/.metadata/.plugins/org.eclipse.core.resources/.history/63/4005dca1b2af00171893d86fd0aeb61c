@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- Sql映射文件: 定义每一条sql语句  -->
+<!-- 
+	namespace:名称空间. 
+			  1.目前可以随便写.
+			  2.如果将来使用的是Mapper接口开发，则namesapce必须写成接口的全类名.
+			         目的:将maapper接口与sql映射文件动态绑定. 
+ -->
+<mapper namespace="com.atguigu.mybatis.dao.EmployeeMapper">
+	
+	<!-- 
+		select: 定义查询的sql语句
+		id:sql语句的唯一标示
+		resultType:声明返回值类型 
+		#{id}: 从传递过来的参数中取出id值
+	 -->
+	<select id="selectEmployee" resultType="com.atguigu.mybaits.beans.Employee">
+		<!-- select * from tbl_employee where id = #{id} -->
+		select id , last_name lastName, gender ,email from tbl_employee where id = #{id}
+	</select>
+	
+	<!-- 
+		接口中的方法名 与 sql语句的id一样: 将接口的方法与sql语句绑定.
+	 -->
+	<select id="getEmployeeById"  resultType="com.atguigu.mybaits.beans.Employee" databaseId="mysql">
+		select * from tbl_employee where id = #{id}
+		<!-- select id,last_name lastName, gender, email from tbl_employee where id = #{id} -->
+	</select>
+	
+	<select id="getEmployeeById" resultType="com.atguigu.mybaits.beans.Employee" databaseId="oracle">
+		select * from orcl_employee where id = #{id}
+		<!-- select id,last_name lastName, gender, email from tbl_employee where id = #{id} -->
+	</select>
+	
+	<select  id="getEmployeeById" resultType="com.atguigu.mybaits.beans.Employee">
+		select * from tbl_employee where id = #{id}
+		<!-- select id,last_name lastName, gender, email from tbl_employee where id = #{id} -->
+	</select>
+	
+	<!-- 
+		parameterType: 指定参数类型. 可以省略的。 Mybatis会自动识别参数的类型.
+		
+		插入数据并返回主键值:
+			对于支持自增主键的数据库可以使用两个配置:
+			useGeneratedKeys="true": 使用自增主键获取主键值
+			keyProperty:MyBatis获取到主键值后,将这个主键值封装到javaBean的哪个属性上.
+	 -->
+	<!-- public void addEmp(Employee employee ); -->
+	<insert id="addEmp" parameterType="com.atguigu.mybaits.beans.Employee"
+		useGeneratedKeys="true"  keyProperty="id" databaseId="mysql">
+		insert into tbl_employee(last_name,gender,email) 
+			values(#{lastName},#{gender},#{email})
+	</insert>
+	
+	<!-- 
+		不支持主键自增的数据库，使用selectKey子标签来返回主键值
+		selectKey:
+			order:BEFORE/AFTER : selectKey中的sql语句  在 插入sql语句 之前还是之后执行.	
+			keyProperty:Mybatis将获取到的主键值封装给javaBean的哪个属性.
+			resultType：指定主键值的返回值类型.
+	 -->
+	 <!-- BEFORE 
+	<insert id="addEmp" parameterType="com.atguigu.mybaits.beans.Employee"
+		 databaseId="oracle">
+		 <selectKey   order="BEFORE" keyProperty="id" resultType="integer">
+		 		select employee_seq.nextval from dual 
+		 </selectKey>
+		insert into orcl_employee (id ,last_name,gender,email) 
+			values(#{id},#{lastName},#{gender},#{email})
+	</insert>
+	-->
+	<!-- AFTER -->
+	<insert id="addEmp" parameterType="com.atguigu.mybaits.beans.Employee"
+		 databaseId="oracle">
+		 <selectKey   order="AFTER" keyProperty="id" resultType="integer">
+		 		select employee_seq.currval from dual 
+		 </selectKey>
+		insert into orcl_employee (id ,last_name,gender,email) 
+			values(employee_seq.nextval,#{lastName},#{gender},#{email})
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+	<!-- public void updateEmp(Employee employee ); -->
+	<update id="updateEmp" > 
+		update tbl_employee 
+		set 
+			last_name = #{lastName},
+			gender = #{gender},
+			email = #{email}
+		where
+			id = #{id}
+	</update>
+	
+	<!-- public void deleteEmpById(Integer id ); -->
+	<delete id="deleteEmpById" parameterType="integer">
+		delete from tbl_employee where id = #{id}	
+	</delete>
+	
+	
+	<!-- public Employee getEmpByIdAndLastName(Integer id ,String lastName); -->
+	<select id="getEmpByIdAndLastName" resultType="com.atguigu.mybaits.beans.Employee">
+		select * from tbl_employee where id = #{id} and last_name = #{lastName}
+	</select>
+	
+	<!-- public Employee getEmpByMap(Map<String,Object> map ); -->
+	<select id="getEmpByMap" resultType="com.atguigu.mybaits.beans.Employee">
+		select * from ${tableName} where id = ${id} and last_name = '${ln}' 
+	</select>
+	
+	<!-- public List<Employee> getEmpsByLastName(String lastName); 
+		resultType:是用来指定  让MyBatis将一条数据封装成什么类型的对象.
+	-->
+	<select id="getEmpsByLastName" resultType="com.atguigu.mybaits.beans.Employee">
+		select * from tbl_employee where last_name like #{lastName}
+	</select>
+	
+	<!-- public Map<String,Object> getEmpByIdReturnMap(Integer id ); -->
+	<select id="getEmpByIdReturnMap" resultType="map">
+		select * from tbl_employee where id = #{id}
+	</select>
+	
+	<!-- public Map<Integer ,Employee> getEmpsByLastNameReturnMap(String lastName); -->
+	<select id="getEmpsByLastNameReturnMap" resultType="com.atguigu.mybaits.beans.Employee">
+		select * from tbl_employee where last_name like #{lastName}
+	</select>
+</mapper>

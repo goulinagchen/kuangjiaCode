@@ -1,0 +1,5 @@
+package hebernate.bean;
+
+public class Student {
+
+}

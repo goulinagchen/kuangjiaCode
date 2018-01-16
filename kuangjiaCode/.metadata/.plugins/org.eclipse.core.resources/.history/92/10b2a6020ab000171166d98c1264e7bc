@@ -1,0 +1,5 @@
+package mybatis.bean;
+
+public class Employee {
+
+}

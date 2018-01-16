@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.mybatis.dao.EmployeeMapperDynamicSQL">
+	
+	<!-- 查询员工 , 携带了那些字段查询条件就带上这些字段的值. 
+		 public List<Employee> getEmpsByConditonIf(Employee employee);
+	-->
+	<select id="getEmpsByConditonIf" resultType="com.atguigu.mybaits.beans.Employee">
+		select * from tbl_employee <!-- where 1=1 --> 
+		
+		<!-- 
+			test:判断条件 ，使用OGNL表达式来写
+			特殊字符:
+				  1.写转义字符
+				  2.使用OGNL提供的写法。
+		 -->
+		<where>  <!-- where:在sql语句中加上where，并且能处理第一个and的问题. -->
+			<if test="id!=null">
+				and  id = #{id} 
+			</if> 
+			
+			<if test="lastName!=null &amp;&amp; lastName!=&quot;&quot; ">
+				and last_name = #{lastName}
+			</if>
+			<if test="email!=null and email.trim()!='' ">
+			    and email = #{email} 
+			</if>	
+			<if test="gender==0 or gender==1">
+			    and gender = #{gender}
+			</if>
+		</where>
+	
+	</select>
+	
+	
+	<!-- public List<Employee> getEmpsByConditionTrim(Employee employee); -->
+	
+	<select id="getEmpsByConditionTrim" resultType="com.atguigu.mybaits.beans.Employee">
+		select * from tbl_employee 
+		<!-- 
+			prefix:前缀. 给拼接好的sql字符串加一个前缀.
+			prefixOverrides: 前缀覆盖.给拼接好的sql字符串去掉一个前缀.
+			suffix:
+			suffixOverrides:
+		
+		 -->
+		<trim prefix="where"   suffixOverrides="and">
+			<if test="id!=null">
+				 id = #{id} and
+			</if> 
+			
+			<if test="lastName!=null &amp;&amp; lastName!=&quot;&quot; ">
+				last_name = #{lastName} and 
+			</if>
+			<if test="email!=null and email.trim()!='' ">
+			    email = #{email} and
+			</if>	
+			<if test="gender==0 or gender==1">
+			    gender = #{gender}
+			</if>
+		</trim>
+	
+	</select>
+	
+	
+	<!-- 
+		choose: 类似于带了break的switch case.
+		        
+		
+		public List<Employee> getEmpsByConditionChoose(Employee employee);
+	 -->
+	<select id="getEmpsByConditionChoose" resultType="com.atguigu.mybaits.beans.Employee">
+		select * from tbl_employee 
+		<where>
+			<choose>
+				<when test="id!=null">
+				    id = #{id}
+				</when>
+				<when test="lastName!=null and lastName!=''">
+					last_name =#{lastName}
+				</when>
+				<when test="email!=null">
+					email = #{email}
+				</when>
+				<otherwise>
+					 gender = 0
+				</otherwise>
+			</choose>
+		</where>
+	</select>
+	
+	<!-- 
+	    set: 解决修改的时候,号的问题.
+		public void updateEmpByConditionSet(Employee employee);
+	 -->
+	 <update id="updateEmpByConditionSet">
+	 	update tbl_employee  
+	 		<set>
+				<if test="lastName!=null &amp;&amp; lastName!=&quot;&quot; ">
+					last_name = #{lastName},
+				</if>
+				<if test="email!=null and email.trim()!='' ">
+				    email = #{email},
+				</if>	
+				<if test="gender==0 or gender==1">
+				    gender = #{gender}
+				</if>
+			</set>
+	 	
+	 	where id = #{id}
+	 </update>
+	 
+	 
+	 <!--
+	 	foreach: 
+	 		collection: 指定要遍历的集合
+	 		item:将当前迭代出的元素赋值给指定的变量     
+	 		open:指定开始的字符
+	 		close:指定结束的字符
+	 		separator:指定元素与元素之间的分割符
+	 		index: 
+	 			 遍历list的时候，index代表的是list的索引
+	 			 遍历的map的时候，index代表的是map的key.
+	 	
+	 	    对于集合类型的参数，Mybatis也会做特殊的处理，也会封装map.
+	 	    封装map的规则:	
+	 	    collection(list/set): key 就是collection
+	 	    List:  key就是collection、list
+	 		
+	 	public List<Employee> getEmpsByConditionForeach(@Param("ids")List<Integer > ids );
+	  -->
+	  <select id="getEmpsByConditionForeach" resultType="com.atguigu.mybaits.beans.Employee">
+	  	 select * from tbl_employee where id in 
+	  	 
+	  	 <foreach collection="ids" item="curr_id" open="(" close=")" separator=",">
+	  	 	 #{curr_id}
+	  	 </foreach>
+	  	 
+	  </select>
+	  
+	  <!-- 
+	     	使用foreach完成Mysql数据库批量操作(增删改).	     	
+	   -->
+	   <!--  -->
+	   	public void addEmpsBatch(@Param("emps")List<Employee> emps );
+	   
+	    <insert id="addEmpsBatch">
+	    	INSERT INTO tbl_employee(last_name,email,gender,d_id)  VALUES
+	    	<foreach collection="emps"  item="e" separator=",">
+	    		 (#{e.lastName},#{e.email},#{e.gender},#{e.dept.id})
+	    	</foreach>
+	    </insert>
+	   
+	  
+	  	<!-- 
+	  		默认情况下，不允许将多条sql语句通过;隔开。
+	  		需要在链接的url上添加一个属性: allowMultiQueries=true.
+	  	 -->
+	    <insert id="addEmpsBatch" databaseId="mysql">
+	    	<foreach collection="emps"  item="e" >
+	    		INSERT INTO tbl_employee(last_name,email,gender,d_id)  VALUES
+	    		(#{e.lastName},#{e.email},#{e.gender},#{e.dept.id});
+	    	</foreach>
+	    </insert>
+	    
+	    <insert id="addEmpsBatch" databaseId="oracle">
+	    	<foreach collection="emps"  item="e"  open="begin" close="end;">
+  				insert into orcl_employee(id,last_name,email,gender) 
+            		values(employee_seq.nextval,#{e.lastName},#{e.email},#{e.gender});
+	    	</foreach>
+	    </insert>
+	    
+	    
+	    <!-- 
+	    	两个内置参数:    	   
+	    	   _parameter: 代表整个参数
+	    	   		单个参数: _parameter就代表这个参数
+	    	   		多个参数: 多个参数会被封装成map,_parameter就代表这个map.    	   
+	    	   _databaseId: 就代表当前数据库的别名
+	    	   		使用_databaseId的前提是必须要配置databaseIdProvider
+	     -->
+	     
+	     <!-- 
+	     	public List<Employee> getEmpsTestInnerParameter(Employee employee );
+	      -->
+	      <select id="getEmpsTestInnerParameter" resultType="com.atguigu.mybaits.beans.Employee">
+	      		<!-- 
+	      			通过bind 绑定一个值到一个变量中
+	      		 -->
+	      		 <bind name="newLastName" value="'%'+lastName+'%'"/>
+	      		
+	      		<if test="_databaseId=='mysql'">
+	      			<!-- select * from tbl_employee --> 
+	      			<!-- 引入抽取出来的sql -->
+	      			<include refid="selectSQL"></include>
+	      			<if test="lastName!=null">
+	      				where last_name like #{newLastName}
+	      			</if>
+	      		</if>
+	      		
+	      		<if test="_databaseId=='oracle'">
+	      			select * from orcl_employee where id =#{id}
+	      		</if>
+	      		
+	      </select>
+	     
+	     
+	     <!-- 
+	     	sql: 抽取可重用的sql片段，将比较复杂的，试用频率较高的sql抽取出来，方便多次使用.
+	     	include: 引入已经抽取的sql.
+	     	
+	      -->
+	      <sql id="selectSQL">
+	      	select * from tbl_employee
+	      </sql>
+	    
+</mapper>

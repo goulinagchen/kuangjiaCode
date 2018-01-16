@@ -1,0 +1,15 @@
+INDEX VERSION 1.3+H:\kuangjiaCode\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+2016282471.index
+4199264943.index
+1021480095.index
+4174309744.index
+3744812462.index
+3241774815.index
+2507217276.index
+1640478922.index
+2412370406.index
+1955277456.index
+1294141669.index
+19789654.index
+3993124403.index
+1884570416.index

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.mybatis.dao.EmployeeMapperResultMap">
+	<!-- public Employee getEmpById(Integer id ); -->
+	<select id="getEmpById" resultMap="MyEmp">
+		select * from tbl_employee where id = #{id}
+	</select>
+	
+	<!-- 
+		resultMap:用来声明自定义的映射.
+			type:指定映射的类型
+			id:唯一标识
+	 -->
+	<resultMap type="com.atguigu.mybaits.beans.Employee" id="MyEmp">
+		<!-- 自定义的映射规则 
+			id: 定义主键的映射. 底层会有优化.
+			result:定义普通列的映射.
+			column:指定列名
+			property:指定属性名
+		-->
+		<id column="id"  property="id" />
+		<result column="last_name" property="lastName"/>
+		<result column="email" property="email"/>
+		<result column="gender" property="gender"/>
+	</resultMap>
+	
+	<!-- 
+		需求一: 
+		    查询Employee的同时查询员工对应的部门信息.  (一对一)
+		  public Employee getEmpAndDept(Integer id );
+	 -->
+	 <select id="getEmpAndDept" resultMap="MyEmpAndDept">
+	 	select e.id eid ,e.last_name last_name, e.gender gender, 
+	 	       e.email email ,d.id did ,d.dept_name dept_name
+	 	from tbl_employee e ,tbl_dept d
+	 	where e.d_id = d.id and e.id = #{id} 
+	 </select>
+	 <!-- 
+	 	   eid  last_name  gender   email            did  dept_name  
+           1001  Tom        1       tom@sina.com       1  开发部  
+	 
+	  -->
+	 <resultMap type="com.atguigu.mybaits.beans.Employee" id="MyEmpAndDept">
+	 	<id column="eid" property="id"/>
+	 	<result column="last_name" property="lastName"/>
+	 	<result column="gender" property="gender"/>
+	 	<result column="email" property="email"/>
+	 	<!-- 使用级联的方式
+		 	<result column="did" property="dept.id"/>
+		 	<result column="dept_name"  property="dept.departmentName" />
+	 	 -->
+	 	 <!-- 
+	 	 	association:用来映射关系属性 
+	 	 	property: 指定关系属性
+	 	 	javaType: 指定关系属性的类型
+	 	 -->
+	 	 <association property="dept" javaType="com.atguigu.mybaits.beans.Department">
+	 	 	<id column="did" property="id"/>
+	 	 	<id column="dept_name" property="departmentName"/>
+	 	 </association>
+	 </resultMap>
+	 
+	 <!-- 
+	 	association分步查询: 
+	 		1.先按照员工id查询员工信息
+	 		2.根据查询到的员工信息中的d_id 查询部门信息
+	 		3.将部门信息设置到员工中.
+	  -->
+	  <!-- public Employee getEmpAndDeptStep(Integer id ); -->
+	  <select id="getEmpAndDeptStep" resultMap="MyEmpAndDeptStep">
+	  	select * from tbl_employee where id = #{id}
+	  </select>
+	  <resultMap type="com.atguigu.mybaits.beans.Employee" id="MyEmpAndDeptStep">
+	  	<!-- Employee的映射 -->
+	  	<id column="id" property="id"/>
+	  	<result column="last_name" property="lastName"/>
+	  	<result column="email" property="email"/>
+	  	<result column="gender" property="gender"/>
+	  	<!-- 分步查询   查部门 
+	  		select:调用另外一个查询
+	  		column:指定调用查询的时候要传递的参数.
+	  	-->
+	  	<association property="dept" 
+	  		select="com.atguigu.mybatis.dao.DepartmentMapperResultMap.getDeptById"
+	  		column="{did=d_id}"  fetchType="eager">
+	  	</association>
+	  </resultMap>
+	  
+	  <!--
+	  	 分步查询可以使用延迟加载.
+	  	 延迟加载: 将一些暂时不需要的数据不进行加载。等到需要的时候再进行加载.
+	  	 在分步查询的基础上加上两个配置:
+	  	 
+	   -->
+	   
+	   <!-- 需求二:
+	   		查询部门的时候将部门对应的所有的员工信息也查询出来.(一对多)
+	   		
+	   		在DepartmentMapperResultMap中讲解.
+	    -->
+	    
+	   <!-- public List<Employee> getEmpsByD_ID(Integer did ); --> 
+	   <select id="getEmpsByD_ID" resultType="com.atguigu.mybaits.beans.Employee">
+	   		select * from tbl_employee where d_id=#{id}
+	   </select>
+	   
+	   <!-- 
+	   	扩展: 
+	   		1.分步查询多列值的传递
+	   			将多列值封装成map传递过去.{k=v,k1=v1,k2=v2.....}
+	   			在被调用方取值的时候一定要使用map中的key来取值.
+	   			
+	   		2.fetchType="lazy"
+	   			lazy:  使用延迟加载
+	   			eager: 立即加载
+	    -->
+	    
+	    
+	   
+	  
+</mapper>

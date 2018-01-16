@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<!-- 
+		name: 指定全类名
+		table:指定数据库中对应的表
+	 -->
+	<class name="com.atguigu.hibernate.beans.Student" table="tbl_student">
+		<!-- 配置主键 
+			name:指定属性名
+			type:指定属性类型
+			column:指定表中对应的列名
+		-->
+		<id name="studentId" type="java.lang.Integer" >
+			<column name="student_id"></column>
+			<!-- 配置主键的生成策略:
+				assigned: 表示自己维护主键
+				native: 根据方言来决定数据库底层如何维护主键
+					MySQL: auto_increment
+					Oracle: sequence 序列
+			 -->
+			<generator class="native"></generator>
+		</id>
+		<!-- 配置普通属性 -->
+		<property name="studentName" type="java.lang.String" column="student_name" length="100"></property>
+		<property name="age" type="java.lang.Integer" column="age"></property>
+		<property name="email" type="java.lang.String" column="email"></property>
+		<!-- <property name="birthday" type="java.util.Date" column="birthday"></property> -->
+	</class>
+</hibernate-mapping>

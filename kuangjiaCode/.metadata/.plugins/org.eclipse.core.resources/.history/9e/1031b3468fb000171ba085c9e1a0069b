@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mybatis.dao.EmployeeMapper">
+	
+	<select id="selectEmployee" resultType="mybatis.bean.Employee">
+		select *
+		from tal_employee
+		where id = #{id}
+	</select>
+	
+	<insert id="addEmp" parameterType="mybatis.bean.Employee">
+		insert into 
+		tal_employee(last_name,gender,email)
+		values(#{lastName},#{gender},#{email})
+	</insert>
+	
+	<update id="updateEmp">
+		update tal_employee
+		set last_name = #{lastName},
+			gender = #{gender},
+			email = #{email}
+		where id = #{id}
+	</update>
+	
+	<delete id="deleteEmp">
+		delete 
+		from tal_employee
+		where id = #{id}
+	</delete>
+	
+	<select id="getEmpByIdAndLastName" resultType="mybatis.bean.Employee">
+		select *
+		from tal_employee
+		where id = #{id}
+		and last_name = #{lastName}
+	</select>
+	
+	<select id="getEmpByMap" resultType="mybatis.bean.Employee">
+		select *
+		from ${tableName}
+		where id = ${id}
+		and last_name = '${lastName}'
+	</select>
+	
+	<select id="getEmpsByLastName" resultType="mybatis.bean.Employee">
+		select *
+		from tal_employee
+		where last_name like #{lastName}
+	</select>
+	
+	<select id="getEmpByIdReturnMap" resultType="map">
+		select *
+		from tal_employee
+		where id = #{id}
+	</select>
+	
+	<select id="getEmpsByLastNameReturnMap" resultType="mybatis.bean.Employee">
+		select *
+		from tal_employee
+		where last_name like #{lastName}
+	</select>
+	
+	<select id="getEmpByIdWithResultMap" resultMap="MyEmployee">
+		select *
+		from tal_employee
+		where id = #{id}
+	</select>
+	<resultMap type="mybatis.bean.Employee" id="MyEmployee">
+		<id column="id" property="id"/>
+		<result column="last_name" property="lastName"/>
+		<result column="gender" property="gender"/>
+		<result column="email" property="email"/>
+	</resultMap>
+	
+	<select id="getEmpAndDeptWithResultMap" resultMap="MyEmployeeAndDept">
+		select e.id eid,e.last_name last_name,e.gender gender,e.email email,d.id did,d.dept_name dept_name
+		from tal_employee e,tal_dept d
+		where e.d_id = d.id 
+		and e.id = #{id}
+	</select>
+	<resultMap type="mybatis.bean.Employee" id="MyEmployeeAndDept">
+		<id column="eid" property="id"/>
+		<result column="last_name" property="lastName"/>
+		<result column="gender" property="gender"/>
+		<result column="email" property="email"/>
+		<association property="department" javaType="mybatis.bean.Department">
+			<id column="did" property="id"/>
+			<result column="dept_name" property="department.departmentName"/>
+		</association>
+	</resultMap>
+</mapper>

@@ -1,0 +1,8 @@
+package ssm.mapper;
+
+import java.util.List;
+
+public interface EmployeeMapper {
+
+	public List<Employee> getAllEmps();
+}

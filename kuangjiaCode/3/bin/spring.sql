@@ -1,0 +1,21 @@
+CREATE DATABASE spring DEFAULT CHARACTER SET utf8; 
+SHOW DATABASES; 
+CREATE TABLE tab_emp( id INT(11) PRIMARY KEY AUTO_INCREMENT, last_name VARCHAR(50), email VARCHAR(50), dept_id INT(11) ); 
+CREATE TABLE tab_dept( id INT(11) PRIMARY KEY AUTO_INCREMENT, dept_name VARCHAR(50) ); 
+CREATE TABLE book(
+	isbn VARCHAR(100) PRIMARY KEY,
+	book_name VARCHAR(100),
+	price DOUBLE(11,2)
+);
+
+CREATE TABLE book_stock(
+	isbn VARCHAR(100) PRIMARY KEY,
+	stock INT(11),
+	CHECK(stock>0)
+);
+
+CREATE TABLE account(
+	username VARCHAR(100) PRIMARY KEY,
+	balance DOUBLE(11,2),
+	CHECK(balance>0)
+);

@@ -1,0 +1,44 @@
+package structs2.action;
+
+/**
+ * action 对象是多例的，效率低，安全性高
+ * 
+ * action接受请求参数 1.在action中提供与请求参数名对应的set方法 2.框架Struts2根据request.getParameter()
+ * 3.
+ * 
+ * @author liang
+ *
+ */
+public class UserAction {
+
+	private String username;
+
+	private String password;
+
+	public String login() {
+
+		if ("admin".equals(username) && "1234".equals(password)) {
+			return "success";
+		}
+		return "login";
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		System.out.println("setUsername:" + username);
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		System.out.println("setPassword:" + password);
+		this.password = password;
+	}
+
+}

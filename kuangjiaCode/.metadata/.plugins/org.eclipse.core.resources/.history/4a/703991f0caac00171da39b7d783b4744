@@ -1,0 +1,5 @@
+package springmvc.bean;
+
+public class Person {
+
+}

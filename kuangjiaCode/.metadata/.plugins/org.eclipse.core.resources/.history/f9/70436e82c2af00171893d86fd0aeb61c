@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.mybatis.dao.EmployeeMapperDynamicSQL">
+
+	<select id="getEmpsByConditonIf" resultType="com.atguigu.mybaits.beans.Employee">
+		select * 
+		from tal_employee 
+		<if test="">
+			where id = #{id}
+		</if>
+		<if test="">
+			and last_name = #{lastName}	
+		</if>
+		<if test="">
+			and email = #{email}
+		</if>
+		and gender = #{gender}
+	</select>
+
+
+</mapper>

@@ -1,0 +1,157 @@
+package springmvc.crud.handler;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
+import javax.xml.bind.Binder;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import springmvc.crud.dao.DepartmentDao;
+import springmvc.crud.dao.EmployeeDao;
+import springmvc.crud.entities.Department;
+import springmvc.crud.entities.Employee;
+
+@Controller
+public class CRUDHandler {
+
+	@Autowired
+	private EmployeeDao eDao;
+
+	@Autowired
+	private DepartmentDao dDao;
+
+	/**
+	 * 查询员工，显示列表
+	 */
+	@RequestMapping(value = "/employees", method = RequestMethod.GET)
+	public String getAllEmps(Map<String, Object> map) {
+		// jdbc: 查询所有的员工，转发到页面
+		Collection<Employee> emps = eDao.getAll();
+		map.put("employees", emps);
+		return "list";
+	}
+
+	/**
+	 * 添加页面需要部门信息，先查询并存放到request域对象中
+	 */
+	@RequestMapping(value = "/emp", method = RequestMethod.GET)
+	public String toAddPage(Map<String, Object> map) {
+		Collection<Department> depts = dDao.getDepartments();
+		map.put("departments", depts);
+		// 解决SpringMVC表单标签回显值的问题
+		map.put("employee", new Employee());
+		return "input";
+	}
+
+	/**
+	 * 添加操作 防止出错添加BindingResult，获取错误信息 BindingResult必须要和入参对象挨着写，与入参对象一一对应
+	 */
+	@RequestMapping(value = "/emp", method = RequestMethod.POST)
+	public String addEmp(@Valid Employee employee, BindingResult result, Map<String, Object> map) {
+		System.out.println("addEmp employee: " + employee);
+		// 获取具体的错误信息
+		if (result.getErrorCount() > 0) {
+			System.out.println("==》添加出错了");
+			List<FieldError> errors = result.getFieldErrors();
+			for (FieldError fieldError : errors) {
+				System.out.println(fieldError.getField() + " : " + fieldError.getDefaultMessage());
+			}
+			// 出错后去往指定页面
+			map.put("departments", dDao.getDepartments());
+			return "input";
+		}
+		eDao.save(employee);
+		return "redirect:/employees";
+	}
+
+	/**
+	 * 删除操作
+	 */
+	@RequestMapping(value = "emp/{id}", method = RequestMethod.DELETE)
+	public String deleteEmp(@PathVariable("id") Integer id) {
+		eDao.delete(id);
+		return "redirect:/employees";
+	}
+
+	/**
+	 * 修改前的查询
+	 */
+	@RequestMapping(value = "/emp/{id}", method = RequestMethod.GET)
+	public String toUpdatePage(@PathVariable("id") Integer id, Map<String, Object> map) {
+		Employee employee = eDao.get(id);
+		map.put("employee", employee);
+		// 修改页面需要部门信息，
+		Collection<Department> departments = dDao.getDepartments();
+		map.put("departments", departments);
+		return "input";
+	}
+
+	/**
+	 * 修改
+	 */
+	@RequestMapping(value = "/emp", method = RequestMethod.PUT)
+	public String updateEmp(Employee employee) {
+		eDao.save(employee);
+		return "redirect:/employees";
+	}
+
+	@ModelAttribute
+	public void getEmployee(@RequestParam(value = "id", required = false) Integer id, Map<String, Object> map) {
+		if (id != null) {
+			Employee employee = eDao.get(id);
+			map.put("employee", employee);
+		}
+	}
+
+	/**
+	 * 测试自定义的类型转换器 String-》Employee
+	 */
+	@RequestMapping("/testConver")
+	public String testConverter(@RequestParam("employee") Employee employee) {
+		System.out.println(employee);
+		eDao.save(employee);
+		return "redirect:/employees";
+	}
+
+	/**
+	 * 测试InitBinder
+	 */
+	/*
+	 * @InitBinder public void initBinder(WebDataBinder binder) { //
+	 * binder.setDisallowedFields("lastName"); }
+	 */
+	/**
+	 * 测试Json
+	 */
+	@ResponseBody
+	@RequestMapping("/testJson")
+	public Collection<Employee> testJson() {
+		Collection<Employee> emps = eDao.getAll();
+		return emps;
+	}
+
+	/**
+	 * RequestBody:将请求信息转换成java类型
+	 */
+	@ResponseBody
+	@RequestMapping("/testRequestBody")
+	public String testRequestBody(@RequestBody String body) {
+		System.out.println("body: " + body);
+		return "success";
+	}
+}

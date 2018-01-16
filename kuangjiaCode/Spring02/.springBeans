@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[3.9.0.201707061730-RELEASE]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[false]]></enableImports>
+	<configs>
+		<config>conf/relation.xml</config>
+		<config>conf/scope.xml</config>
+		<config>conf/datasource.xml</config>
+		<config>conf/spel.xml</config>
+		<config>conf/lifecycle.xml</config>
+		<config>conf/factory.xml</config>
+		<config>conf/annotation.xml</config>
+	</configs>
+	<autoconfigs>
+	</autoconfigs>
+	<configSets>
+	</configSets>
+</beansProjectDescription>

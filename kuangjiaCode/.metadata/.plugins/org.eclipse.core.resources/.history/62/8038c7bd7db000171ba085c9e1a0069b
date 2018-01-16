@@ -1,0 +1,16 @@
+package com.atguigu.mybaits.test;
+
+import org.apache.ibatis.session.SqlSessionFactory;
+
+public class MyBatisTestCache {
+
+	public SqlSessionFactory getSqlSessionFactory(){
+		
+	}
+	
+	/**
+	 * MyBatis的二级缓存
+	 * 一级缓存：SqlSession级别的
+	 * 	与数据库的一次会话期间查到的数据放到SqlSession对应的一级缓存中，以后需要获取相同的数据，直接从缓存中读取
+	 */
+}

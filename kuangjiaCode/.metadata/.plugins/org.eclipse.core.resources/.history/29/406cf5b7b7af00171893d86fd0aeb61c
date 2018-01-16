@@ -1,0 +1,11 @@
+package com.atguigu.mybatis.dao;
+
+import com.atguigu.mybaits.beans.Department;
+import com.atguigu.mybaits.beans.Employee;
+
+public interface DepartmentMapperResultMap {
+
+	public Department getDeptById(Integer id);
+	
+	public Employee getEmpAndDeptStep(Integer id);
+}
